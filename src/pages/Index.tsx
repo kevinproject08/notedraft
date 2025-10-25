@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UploadSection from "@/components/UploadSection";
 import ResultsSection from "@/components/ResultsSection";
-import StatusSection from "@/components/StatusSection";
 import { Music2 } from "lucide-react";
 
 const Index = () => {
@@ -28,35 +26,22 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="convert" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-            <TabsTrigger value="convert">Convert</TabsTrigger>
-            <TabsTrigger value="status">Status</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="convert" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <UploadSection
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                error={error}
-                setError={setError}
-                setDownloadUrl={setDownloadUrl}
-              />
-              <ResultsSection
-                downloadUrl={downloadUrl}
-                error={error}
-                isLoading={isLoading}
-              />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="status">
-            <StatusSection />
-          </TabsContent>
-        </Tabs>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <UploadSection
+            selectedFile={selectedFile}
+            setSelectedFile={setSelectedFile}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            error={error}
+            setError={setError}
+            setDownloadUrl={setDownloadUrl}
+          />
+          <ResultsSection
+            downloadUrl={downloadUrl}
+            error={error}
+            isLoading={isLoading}
+          />
+        </div>
       </main>
 
       <footer className="border-t border-border mt-16 py-6">

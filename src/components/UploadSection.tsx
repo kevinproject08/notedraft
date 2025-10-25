@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
 import { Upload, Loader2, FileAudio } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -28,6 +30,8 @@ const UploadSection = ({
   setDownloadUrl,
 }: UploadSectionProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [range, setRange] = useState([0, 100]);
+  const [progress, setProgress] = useState(0);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,6 +55,15 @@ const UploadSection = ({
     setIsLoading(true);
     setError(null);
     setDownloadUrl(null);
+    setProgress(0);
+
+    // Simulate progress
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) return prev;
+        return prev + Math.random() * 10;
+      });
+    }, 500);
 
     try {
       const formData = new FormData();
@@ -77,12 +90,16 @@ const UploadSection = ({
       const zipBlob = await res.blob();
       const url = URL.createObjectURL(zipBlob);
       setDownloadUrl(url);
+      
+      clearInterval(progressInterval);
+      setProgress(100);
 
       toast({
         title: "Processing complete!",
         description: "Your MIDI file is ready for download.",
       });
     } catch (err) {
+      clearInterval(progressInterval);
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
       setError(errorMessage);
       toast({
@@ -142,12 +159,43 @@ const UploadSection = ({
         )}
 
         {selectedFile && (
-          <div className="p-3 rounded-lg bg-muted">
-            <p className="text-sm text-muted-foreground">Selected file:</p>
-            <p className="text-sm font-medium truncate">{selectedFile.name}</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-            </p>
+          <div className="space-y-4">
+            <div className="p-3 rounded-lg bg-muted">
+              <p className="text-sm text-muted-foreground">Selected file:</p>
+              <p className="text-sm font-medium truncate">{selectedFile.name}</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">
+                Transcription Range: {range[0]}% - {range[1]}%
+              </label>
+              <Slider
+                value={range}
+                onValueChange={setRange}
+                min={0}
+                max={100}
+                step={1}
+                minStepsBetweenThumbs={5}
+                disabled={isLoading}
+                className="w-full"
+              />
+              <p className="text-xs text-muted-foreground">
+                Select the portion of the file to transcribe
+              </p>
+            </div>
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Processing...</span>
+              <span className="font-medium">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="w-full" />
           </div>
         )}
 
