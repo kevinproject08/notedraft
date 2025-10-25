@@ -95,6 +95,15 @@ const UploadSection = ({
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
+      
+      // Add start and end seconds based on the range
+      const startSeconds = getStartTime();
+      const endSeconds = getEndTime();
+      
+      if (duration > 0) {
+        formData.append("start_seconds", startSeconds.toString());
+        formData.append("end_seconds", endSeconds.toString());
+      }
 
       const res = await fetch(`${BASE_URL}/v1/transcribe`, {
         method: "POST",
