@@ -32,14 +32,41 @@ const UploadSection = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [range, setRange] = useState([0, 100]);
   const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState<number>(0);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
       setError(null);
+      setRange([0, 100]);
+      
+      // Get file duration for audio/video files
+      const url = URL.createObjectURL(file);
+      const media = document.createElement(file.type.startsWith('audio') ? 'audio' : 'video');
+      
+      media.addEventListener('loadedmetadata', () => {
+        setDuration(Math.round(media.duration));
+        URL.revokeObjectURL(url);
+      });
+      
+      media.addEventListener('error', () => {
+        setDuration(0);
+        URL.revokeObjectURL(url);
+      });
+      
+      media.src = url;
     }
   };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const getStartTime = () => Math.round((range[0] / 100) * duration);
+  const getEndTime = () => Math.round((range[1] / 100) * duration);
 
   const handleProcess = async () => {
     if (!selectedFile) {
@@ -170,7 +197,7 @@ const UploadSection = ({
 
             <div className="space-y-2">
               <label className="text-sm font-medium">
-                Transcription Range: {range[0]}% - {range[1]}%
+                Transcription Range: {duration > 0 ? `${formatTime(getStartTime())} - ${formatTime(getEndTime())}` : `${range[0]}% - ${range[1]}%`}
               </label>
               <Slider
                 value={range}
@@ -183,7 +210,9 @@ const UploadSection = ({
                 className="w-full"
               />
               <p className="text-xs text-muted-foreground">
-                Select the portion of the file to transcribe
+                {duration > 0 
+                  ? `Total duration: ${formatTime(duration)} • Transcribing: ${getEndTime() - getStartTime()}s`
+                  : "Select the portion of the file to transcribe"}
               </p>
             </div>
           </div>
