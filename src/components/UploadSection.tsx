@@ -242,6 +242,7 @@ const UploadSection = ({
           disabled={!selectedFile || isLoading}
           className="w-full"
           size="lg"
+          variant="gradient"
         >
           {isLoading ? (
             <>
