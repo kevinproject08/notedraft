@@ -82,6 +82,33 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
                 <li>Processing metadata</li>
               </ul>
             </div>
+
+            <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-3">
+              <div className="flex items-start gap-2">
+                <div className="p-1.5 rounded bg-primary/10 mt-0.5">
+                  <FileCheck className="h-4 w-4 text-primary" />
+                </div>
+                <div className="space-y-2 flex-1">
+                  <p className="text-sm font-semibold text-foreground">Next Step: View Your Sheet Music</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Your MIDI file can be opened in any music notation software to view and edit as sheet music. 
+                    A popular free option is music notation software like MuseScore.
+                  </p>
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <p className="font-medium text-foreground">Quick steps:</p>
+                    <ol className="space-y-1 ml-4 list-decimal">
+                      <li>Extract the MIDI file from the downloaded ZIP</li>
+                      <li>Download and install music notation software (e.g., MuseScore from musescore.org)</li>
+                      <li>Open the software and use File → Open to load your MIDI file</li>
+                      <li>View and edit your sheet music!</li>
+                    </ol>
+                    <p className="text-[10px] italic text-muted-foreground/70 mt-2">
+                      Note: NoteDraft is not affiliated with any third-party software. MuseScore is mentioned as an example only.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </CardContent>
