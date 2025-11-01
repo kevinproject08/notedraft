@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Upload, Loader2, FileAudio } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
-const BASE_URL = "https://kevinproject08-notedraft.hf.space";
+const BASE_URL = "https://kevinproject08-testnotedraft.hf.space";
 
 const ACCEPTED_FORMATS = ".wav,.mp3,.flac,.m4a,.aac,.ogg,.oga,.wma,.aif,.aiff,.aifc,.opus,.mp4,.mov,.mkv,.avi,.webm,.m4v,.mpg,.mpeg,.wmv,.mid,.midi";
 
