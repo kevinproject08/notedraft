@@ -31,19 +31,11 @@ const Dashboard = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
-      
-      if (!session) {
-        navigate("/auth");
-      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
-        
-        if (!session) {
-          navigate("/auth");
-        }
       }
     );
 
@@ -96,41 +88,58 @@ const Dashboard = () => {
                 )}
               </Button>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar>
-                      <AvatarFallback className="bg-primary text-primary-foreground">
-                        {session?.user?.email ? getInitials(session.user.email) : "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">Account</p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {session?.user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {session ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <Avatar>
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          {session.user?.email ? getInitials(session.user.email) : "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium">Account</p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {session.user?.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button onClick={() => navigate('/auth')} variant="gradient" size="sm">
+                  Sign In
+                </Button>
+              )}
             </div>
           </div>
         </div>
       </header>
 
+      {/* Guest Banner */}
+      {!session && (
+        <div className="bg-primary/10 border-b border-primary/20">
+          <div className="container mx-auto px-4 py-3">
+            <p className="text-sm text-center">
+              You're using NoteDraft as a guest. <button onClick={() => navigate('/auth')} className="underline font-medium hover:text-primary">Sign up</button> to save your transcription history.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Welcome back!</h2>
+          <h2 className="text-3xl font-bold mb-2">{session ? "Welcome back!" : "Welcome to NoteDraft!"}</h2>
           <p className="text-muted-foreground">Upload a new file to convert to MIDI</p>
         </div>
 
