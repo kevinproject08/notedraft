@@ -7,19 +7,16 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+      <nav className="border-b border-border bg-background sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-accent shadow-[0_0_20px_rgba(168,85,247,0.4)]">
               <Music2 className="h-6 w-6 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold">NoteDraft</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-3">
-            <Link to="/auth">
-              <Button variant="ghost">Sign In</Button>
-            </Link>
-            <Link to="/auth">
+            <Link to="/dashboard">
               <Button variant="gradient">Get Started</Button>
             </Link>
           </div>
@@ -45,7 +42,7 @@ const Landing = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/auth">
+              <Link to="/dashboard">
                 <Button size="lg" variant="gradient" className="text-lg px-8">
                   Upload Audio
                 </Button>
@@ -162,7 +159,7 @@ const Landing = () => {
               NoteDraft gives you the tools to work faster and more efficiently.
             </p>
             <div className="pt-6">
-              <Link to="/auth">
+              <Link to="/dashboard">
                 <Button size="lg" variant="gradient">
                   Start Converting Now
                 </Button>
@@ -191,7 +188,6 @@ const Landing = () => {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#how-it-works" className="hover:text-foreground">How It Works</a></li>
                 <li><a href="#features" className="hover:text-foreground">Features</a></li>
-                <li><Link to="/auth" className="hover:text-foreground">Pricing</Link></li>
               </ul>
             </div>
 
