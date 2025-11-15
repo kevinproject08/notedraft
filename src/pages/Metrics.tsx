@@ -1,74 +1,45 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Music2, Clock, FileAudio, TrendingUp, ArrowLeft } from "lucide-react";
+import { Music2, Clock, FileAudio, TrendingUp, ArrowLeft, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
-interface MetricsData {
-  totalTranscriptions: number;
-  totalMinutes: number;
-  successfulTranscriptions: number;
-  averageDuration: number;
-}
+import { getMetrics, type MetricsResponse } from "@/lib/api";
 
 const Metrics = () => {
-  const [metrics, setMetrics] = useState<MetricsData>({
-    totalTranscriptions: 0,
-    totalMinutes: 0,
-    successfulTranscriptions: 0,
-    averageDuration: 0,
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchMetrics();
-  }, []);
+  const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchMetrics = async () => {
     try {
-      const { data: transcriptions, error } = await supabase
-        .from("transcriptions")
-        .select("*");
-
-      if (error) throw error;
-
-      if (transcriptions) {
-        const successful = transcriptions.filter(t => t.status === "completed");
-        
-        // Calculate total duration in seconds from transcriptions
-        // If start/end seconds are available, use those; otherwise estimate from file size
-        const totalSeconds = transcriptions.reduce((acc, t) => {
-          if (t.start_seconds !== null && t.end_seconds !== null) {
-            return acc + (t.end_seconds - t.start_seconds);
-          }
-          // Rough estimate: 1MB ≈ 1 minute of audio
-          return acc + (t.file_size / (1024 * 1024)) * 60;
-        }, 0);
-
-        const totalMinutes = Math.round(totalSeconds / 60);
-        const avgDuration = transcriptions.length > 0 
-          ? Math.round(totalSeconds / transcriptions.length / 60) 
-          : 0;
-
-        setMetrics({
-          totalTranscriptions: transcriptions.length,
-          totalMinutes,
-          successfulTranscriptions: successful.length,
-          averageDuration: avgDuration,
-        });
-      }
+      setIsLoading(true);
+      const data = await getMetrics();
+      setMetrics(data);
     } catch (error) {
-      console.error("Error fetching metrics:", error);
+      console.error('Error fetching metrics:', error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  if (loading) {
+  useEffect(() => {
+    fetchMetrics();
+    // Optional: Poll for updates every 10 seconds
+    const interval = setInterval(fetchMetrics, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!metrics) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Failed to load metrics</p>
       </div>
     );
   }
@@ -113,7 +84,7 @@ const Metrics = () => {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.totalMinutes}</div>
+              <div className="text-2xl font-bold">{metrics.total_minutes.toFixed(1)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Audio transcribed
               </p>
@@ -122,11 +93,11 @@ const Metrics = () => {
 
           <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.1s" }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Transcriptions</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Pieces</CardTitle>
               <FileAudio className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.totalTranscriptions}</div>
+              <div className="text-2xl font-bold">{metrics.total_pieces}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Files processed
               </p>
@@ -135,26 +106,28 @@ const Metrics = () => {
 
           <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.2s" }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Successful</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Total Notes</CardTitle>
+              <Music2 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.successfulTranscriptions}</div>
+              <div className="text-2xl font-bold">{metrics.total_notes}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                Completed successfully
+                MIDI notes extracted
               </p>
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.3s" }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg Duration</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Avg Minutes</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.averageDuration}m</div>
+              <div className="text-2xl font-bold">
+                {metrics.total_pieces > 0 ? (metrics.total_minutes / metrics.total_pieces).toFixed(1) : '0.0'}
+              </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Per transcription
+                Per piece
               </p>
             </CardContent>
           </Card>
@@ -163,46 +136,26 @@ const Metrics = () => {
         <Card className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
           <CardHeader>
             <CardTitle>About These Metrics</CardTitle>
-            <CardDescription>
-              These statistics represent all transcriptions processed through NoteDraft
-            </CardDescription>
+            <CardDescription>Understanding your conversion statistics</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="p-2 rounded bg-primary/10 mt-1">
-                <Clock className="h-4 w-4 text-primary" />
-              </div>
-              <div>
-                <p className="font-medium">Total Minutes</p>
-                <p className="text-sm text-muted-foreground">
-                  Calculated from audio file durations or estimated from file sizes
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-start gap-3">
-              <div className="p-2 rounded bg-accent/10 mt-1">
-                <FileAudio className="h-4 w-4 text-accent" />
-              </div>
-              <div>
-                <p className="font-medium">Transcriptions Count</p>
-                <p className="text-sm text-muted-foreground">
-                  Total number of audio files uploaded and processed
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-start gap-3">
-              <div className="p-2 rounded bg-success/10 mt-1">
-                <TrendingUp className="h-4 w-4 text-success" />
-              </div>
-              <div>
-                <p className="font-medium">Success Rate</p>
-                <p className="text-sm text-muted-foreground">
-                  Percentage of transcriptions completed without errors: {metrics.totalTranscriptions > 0 ? Math.round((metrics.successfulTranscriptions / metrics.totalTranscriptions) * 100) : 0}%
-                </p>
-              </div>
-            </div>
+          <CardContent>
+            <ul className="space-y-2">
+              <li className="text-sm">
+                <strong>Total Minutes:</strong> Combined duration of all audio files processed
+              </li>
+              <li className="text-sm">
+                <strong>Total Pieces:</strong> Number of files successfully converted to MIDI
+              </li>
+              <li className="text-sm">
+                <strong>Total Notes:</strong> Total MIDI notes extracted from all pieces
+              </li>
+              <li className="text-sm">
+                <strong>Avg Minutes:</strong> Average duration per converted piece
+              </li>
+            </ul>
+            <p className="text-xs text-muted-foreground mt-4">
+              Metrics update automatically every 10 seconds
+            </p>
           </CardContent>
         </Card>
       </main>

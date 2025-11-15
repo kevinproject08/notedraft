@@ -5,8 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import { Upload, Loader2, FileAudio } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
-const BASE_URL = "https://kevinproject08-testnotedraft.hf.space";
+import { transcribeFile, API_BASE } from "@/lib/api";
 
 const ACCEPTED_FORMATS = ".wav,.mp3,.flac,.m4a,.aac,.ogg,.oga,.wma,.aif,.aiff,.aifc,.opus,.mp4,.mov,.mkv,.avi,.webm,.m4v,.mpg,.mpeg,.wmv,.mid,.midi";
 
@@ -93,47 +92,24 @@ const UploadSection = ({
     }, 500);
 
     try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+      setProgress(30);
+      console.log('Sending transcription request to:', API_BASE);
       
-      // Add start and end seconds based on the range
-      const startSeconds = getStartTime();
-      const endSeconds = getEndTime();
-      
-      if (duration > 0) {
-        formData.append("start_seconds", startSeconds.toString());
-        formData.append("end_seconds", endSeconds.toString());
-      }
-
-      const res = await fetch(`${BASE_URL}/v1/transcribe`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        let errorMessage = `HTTP ${res.status}: ${res.statusText}`;
-        try {
-          const errorData = await res.text();
-          if (errorData) {
-            errorMessage += ` - ${errorData}`;
-          }
-        } catch {
-          // If reading the body fails, use the default error message
-        }
-        throw new Error(errorMessage);
-      }
-
-      const zipBlob = await res.blob();
-      const url = URL.createObjectURL(zipBlob);
-      setDownloadUrl(url);
+      const result = await transcribeFile(selectedFile);
+      console.log('Transcription result:', result);
       
       clearInterval(progressInterval);
       setProgress(100);
 
-      toast({
-        title: "Processing complete!",
-        description: "Your MIDI file is ready for download.",
-      });
+      if (result.download_url) {
+        setDownloadUrl(result.download_url);
+        toast({
+          title: "Success!",
+          description: "Your MIDI file is ready to download.",
+        });
+      } else {
+        throw new Error("No download URL received from server");
+      }
     } catch (err) {
       clearInterval(progressInterval);
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
