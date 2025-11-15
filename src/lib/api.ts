@@ -20,6 +20,7 @@ export interface MetricsResponse {
 /**
  * Transcribe an audio/video file to MIDI
  * POST /v1/transcribe
+ * Returns a blob URL for the downloaded file
  */
 export async function transcribeFile(file: File): Promise<TranscribeResponse> {
   const formData = new FormData();
@@ -35,7 +36,14 @@ export async function transcribeFile(file: File): Promise<TranscribeResponse> {
     throw new Error(`Transcription failed with status ${res.status}: ${errorText}`);
   }
 
-  return res.json();
+  // Backend returns the file directly as a blob, not JSON
+  const blob = await res.blob();
+  const downloadUrl = URL.createObjectURL(blob);
+  
+  return {
+    message: "Transcription completed successfully",
+    download_url: downloadUrl,
+  };
 }
 
 /**
