@@ -83,16 +83,15 @@ const UploadSection = ({
     setDownloadUrl(null);
     setProgress(0);
 
-    // Simulate progress
+    // Simulate progress more realistically - stop at 85% until request completes
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 90) return prev;
-        return prev + Math.random() * 10;
+        if (prev >= 85) return prev;
+        return prev + Math.random() * 8;
       });
-    }, 500);
+    }, 800);
 
     try {
-      setProgress(30);
       console.log('Sending transcription request to:', API_BASE);
       
       const result = await transcribeFile(selectedFile);
