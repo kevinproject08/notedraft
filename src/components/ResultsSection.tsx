@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileCheck, Loader2, AlertCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ResultsSectionProps {
   downloadUrl: string | null;
@@ -102,10 +103,15 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
                       <li>Open the software and use File → Open to load your MIDI file</li>
                       <li>View and edit your sheet music!</li>
                     </ol>
-                    <p className="text-[10px] italic text-muted-foreground/70 mt-2">
-                      Note: NoteDraft is not affiliated with any third-party software. MuseScore is mentioned as an example only.
-                    </p>
                   </div>
+                  <Link to="/guide" className="block mt-3">
+                    <Button variant="outline" size="sm" className="w-full">
+                      View Complete Guide
+                    </Button>
+                  </Link>
+                  <p className="text-[10px] italic text-muted-foreground/70 mt-2">
+                    Note: NoteDraft is not affiliated with any third-party software. MuseScore is mentioned as an example only.
+                  </p>
                 </div>
               </div>
             </div>
