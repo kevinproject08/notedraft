@@ -47,7 +47,7 @@ const Landing = () => {
                   Upload Audio
                 </Button>
               </Link>
-              <Link to="#how-it-works">
+              <Link to="/learn-more">
                 <Button size="lg" variant="outline" className="text-lg px-8">
                   Learn More
                 </Button>
