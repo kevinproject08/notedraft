@@ -83,21 +83,13 @@ const UploadSection = ({
     setDownloadUrl(null);
     setProgress(0);
 
-    // Simulate progress more realistically - stop at 85% until request completes
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 85) return prev;
-        return prev + Math.random() * 8;
-      });
-    }, 800);
-
     try {
-      console.log('Sending transcription request to:', API_BASE);
+      const result = await transcribeFile(selectedFile, (current, total) => {
+        // Update progress based on segment completion
+        const percentage = (current / total) * 100;
+        setProgress(percentage);
+      });
       
-      const result = await transcribeFile(selectedFile);
-      console.log('Transcription result:', result);
-      
-      clearInterval(progressInterval);
       setProgress(100);
 
       if (result.download_url) {
@@ -110,7 +102,6 @@ const UploadSection = ({
         throw new Error("No download URL received from server");
       }
     } catch (err) {
-      clearInterval(progressInterval);
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
       setError(errorMessage);
       toast({
@@ -209,6 +200,9 @@ const UploadSection = ({
               <span className="font-medium">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="w-full" />
+            <p className="text-xs text-muted-foreground text-center">
+              Process could take up to 10 minutes, please keep tab open
+            </p>
           </div>
         )}
 
