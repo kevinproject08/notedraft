@@ -22,7 +22,10 @@ export interface MetricsResponse {
  * POST /v1/transcribe
  * Returns a blob URL for the downloaded file
  */
-export async function transcribeFile(file: File): Promise<TranscribeResponse> {
+export async function transcribeFile(
+  file: File,
+  onProgress?: (current: number, total: number) => void
+): Promise<TranscribeResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -36,8 +39,38 @@ export async function transcribeFile(file: File): Promise<TranscribeResponse> {
     throw new Error(`Transcription failed with status ${res.status}: ${errorText}`);
   }
 
-  // Backend returns the file directly as a blob, not JSON
-  const blob = await res.blob();
+  // Read response body as stream to capture progress messages
+  const reader = res.body?.getReader();
+  const decoder = new TextDecoder();
+  let chunks: Uint8Array[] = [];
+  let textBuffer = '';
+
+  if (reader) {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      
+      chunks.push(value);
+      
+      // Try to parse text for progress updates
+      textBuffer += decoder.decode(value, { stream: true });
+      const lines = textBuffer.split('\n');
+      textBuffer = lines.pop() || '';
+      
+      for (const line of lines) {
+        // Parse segment progress: "Segment X / Y"
+        const match = line.match(/Segment\s+(\d+)\s*\/\s*(\d+)/i);
+        if (match && onProgress) {
+          const current = parseInt(match[1], 10);
+          const total = parseInt(match[2], 10);
+          onProgress(current, total);
+        }
+      }
+    }
+  }
+
+  // Combine all chunks into a blob
+  const blob = new Blob(chunks as BlobPart[]);
   const downloadUrl = URL.createObjectURL(blob);
   
   return {
