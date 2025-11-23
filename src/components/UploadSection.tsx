@@ -3,9 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
-import { Upload, Loader2, FileAudio } from "lucide-react";
+import { Upload, Loader2, FileAudio, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { transcribeFile, API_BASE } from "@/lib/api";
+import { transcribeFile, getJobStatus, cancelJob } from "@/lib/api";
 
 const ACCEPTED_FORMATS = ".wav,.mp3,.flac,.m4a,.aac,.ogg,.oga,.wma,.aif,.aiff,.aifc,.opus,.mp4,.mov,.mkv,.avi,.webm,.m4v,.mpg,.mpeg,.wmv,.mid,.midi";
 
@@ -32,6 +32,7 @@ const UploadSection = ({
   const [range, setRange] = useState([0, 100]);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState<number>(0);
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -67,6 +68,28 @@ const UploadSection = ({
   const getStartTime = () => Math.round((range[0] / 100) * duration);
   const getEndTime = () => Math.round((range[1] / 100) * duration);
 
+  const handleCancel = async () => {
+    if (!currentJobId) return;
+
+    try {
+      await cancelJob(currentJobId);
+      toast({
+        title: "Job Canceled",
+        description: "Your transcription job has been canceled.",
+      });
+    } catch (err) {
+      toast({
+        title: "Cancel Failed",
+        description: "Could not cancel the job.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      setCurrentJobId(null);
+      setProgress(0);
+    }
+  };
+
   const handleProcess = async () => {
     if (!selectedFile) {
       setError("Please select a file first");
@@ -84,33 +107,47 @@ const UploadSection = ({
     setProgress(0);
 
     try {
-      const result = await transcribeFile(selectedFile, (current, total) => {
-        // Update progress based on segment completion
-        const percentage = (current / total) * 100;
-        setProgress(percentage);
-      });
-      
-      setProgress(100);
+      // Start the transcription job
+      const result = await transcribeFile(selectedFile);
+      const jobId = result.job_id;
+      setCurrentJobId(jobId);
 
-      if (result.download_url) {
-        setDownloadUrl(result.download_url);
-        toast({
-          title: "Success!",
-          description: "Your MIDI file is ready to download.",
-        });
-      } else {
-        throw new Error("No download URL received from server");
-      }
+      // Poll for status updates
+      const pollInterval = setInterval(async () => {
+        try {
+          const status = await getJobStatus(jobId);
+          
+          setProgress(status.progress);
+
+          if (status.status === "completed" && status.download_url) {
+            clearInterval(pollInterval);
+            setDownloadUrl(status.download_url);
+            setIsLoading(false);
+            setCurrentJobId(null);
+            toast({
+              title: "Success!",
+              description: "Your MIDI file is ready to download.",
+            });
+          } else if (status.status === "failed" || status.error) {
+            clearInterval(pollInterval);
+            throw new Error(status.error || "Transcription failed");
+          }
+        } catch (err) {
+          clearInterval(pollInterval);
+          throw err;
+        }
+      }, 2000); // Poll every 2 seconds
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
       setError(errorMessage);
+      setIsLoading(false);
+      setCurrentJobId(null);
       toast({
         title: "Processing failed",
         description: errorMessage,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -194,7 +231,7 @@ const UploadSection = ({
         )}
 
         {isLoading && (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Processing...</span>
               <span className="font-medium">{Math.round(progress)}%</span>
@@ -203,6 +240,15 @@ const UploadSection = ({
             <p className="text-xs text-muted-foreground text-center">
               Process could take up to 10 minutes, please keep tab open
             </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCancel}
+              className="w-full"
+            >
+              <X className="mr-2 h-4 w-4" />
+              Cancel Job
+            </Button>
           </div>
         )}
 

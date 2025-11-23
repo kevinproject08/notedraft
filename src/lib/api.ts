@@ -6,9 +6,15 @@ export const API_BASE = import.meta.env.VITE_API_BASE ?? "https://kevinproject08
 
 // Response types based on backend schema
 export interface TranscribeResponse {
+  job_id: string;
   message: string;
+}
+
+export interface StatusResponse {
+  status: string;
+  progress: number;
   download_url?: string;
-  // Add other fields based on your OpenAPI schema
+  error?: string;
 }
 
 export interface MetricsResponse {
@@ -20,12 +26,9 @@ export interface MetricsResponse {
 /**
  * Transcribe an audio/video file to MIDI
  * POST /v1/transcribe
- * Returns a blob URL for the downloaded file
+ * Returns a job_id for status polling
  */
-export async function transcribeFile(
-  file: File,
-  onProgress?: (current: number, total: number) => void
-): Promise<TranscribeResponse> {
+export async function transcribeFile(file: File): Promise<TranscribeResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -39,44 +42,35 @@ export async function transcribeFile(
     throw new Error(`Transcription failed with status ${res.status}: ${errorText}`);
   }
 
-  // Read response body as stream to capture progress messages
-  const reader = res.body?.getReader();
-  const decoder = new TextDecoder();
-  let chunks: Uint8Array[] = [];
-  let textBuffer = '';
+  return res.json();
+}
 
-  if (reader) {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      
-      chunks.push(value);
-      
-      // Try to parse text for progress updates
-      textBuffer += decoder.decode(value, { stream: true });
-      const lines = textBuffer.split('\n');
-      textBuffer = lines.pop() || '';
-      
-      for (const line of lines) {
-        // Parse segment progress: "Segment X / Y"
-        const match = line.match(/Segment\s+(\d+)\s*\/\s*(\d+)/i);
-        if (match && onProgress) {
-          const current = parseInt(match[1], 10);
-          const total = parseInt(match[2], 10);
-          onProgress(current, total);
-        }
-      }
-    }
-  }
-
-  // Combine all chunks into a blob
-  const blob = new Blob(chunks as BlobPart[]);
-  const downloadUrl = URL.createObjectURL(blob);
+/**
+ * Get the status of a transcription job
+ * GET /v1/status/{job_id}
+ */
+export async function getJobStatus(jobId: string): Promise<StatusResponse> {
+  const res = await fetch(`${API_BASE}/v1/status/${jobId}`);
   
-  return {
-    message: "Transcription completed successfully",
-    download_url: downloadUrl,
-  };
+  if (!res.ok) {
+    throw new Error(`Failed to get job status: ${res.status}`);
+  }
+  
+  return res.json();
+}
+
+/**
+ * Cancel a transcription job
+ * POST /v1/cancel/{job_id}
+ */
+export async function cancelJob(jobId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/v1/cancel/${jobId}`, {
+    method: "POST",
+  });
+  
+  if (!res.ok) {
+    throw new Error(`Failed to cancel job: ${res.status}`);
+  }
 }
 
 /**
