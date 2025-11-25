@@ -195,8 +195,6 @@ const Landing = () => {
               <h3 className="font-semibold mb-4">Resources</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link to="/guide" className="hover:text-foreground">Complete Guide</Link></li>
-                <li><a href="#" className="hover:text-foreground">Docs</a></li>
-                <li><a href="#" className="hover:text-foreground">API</a></li>
                 <li><a href="#" className="hover:text-foreground">Support</a></li>
               </ul>
             </div>
