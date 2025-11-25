@@ -13,6 +13,7 @@ export interface TranscribeResponse {
 export interface StatusResponse {
   status: string;
   progress: number;
+  message?: string;
   download_url?: string;
   error?: string;
 }

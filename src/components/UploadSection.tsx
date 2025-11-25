@@ -33,6 +33,7 @@ const UploadSection = ({
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState<number>(0);
   const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -105,6 +106,7 @@ const UploadSection = ({
     setError(null);
     setDownloadUrl(null);
     setProgress(0);
+    setStatusMessage("Uploading file and initializing transcription...");
 
     try {
       // Start the transcription job
@@ -117,13 +119,20 @@ const UploadSection = ({
         try {
           const status = await getJobStatus(jobId);
           
-          setProgress(status.progress);
+          // Only update progress if it's greater than 0 (actual segments being processed)
+          if (status.progress > 0) {
+            setProgress(status.progress);
+            setStatusMessage(status.message || "Processing...");
+          }
 
-          if (status.status === "completed" && status.download_url) {
+          if (status.status === "complete" || status.status === "completed") {
             clearInterval(pollInterval);
-            setDownloadUrl(status.download_url);
+            // Use the job_id to construct the download URL
+            const downloadUrl = `${import.meta.env.VITE_API_BASE_URL || 'https://kevinproject08-NoteDraft.hf.space'}/v1/download/${jobId}`;
+            setDownloadUrl(downloadUrl);
             setIsLoading(false);
             setCurrentJobId(null);
+            setProgress(100);
             toast({
               title: "Success!",
               description: "Your MIDI file is ready to download.",
@@ -143,6 +152,7 @@ const UploadSection = ({
       setError(errorMessage);
       setIsLoading(false);
       setCurrentJobId(null);
+      setStatusMessage("");
       toast({
         title: "Processing failed",
         description: errorMessage,
@@ -233,12 +243,16 @@ const UploadSection = ({
         {isLoading && (
           <div className="space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Processing...</span>
+              <span className="text-muted-foreground">
+                {progress === 0 ? statusMessage : "Processing..."}
+              </span>
               <span className="font-medium">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="w-full" />
             <p className="text-xs text-muted-foreground text-center">
-              Process could take up to 10 minutes, please keep tab open
+              {progress === 0 
+                ? "Transcription progress will display once file processing begins"
+                : "Process could take up to 10 minutes, please keep tab open"}
             </p>
             <Button
               variant="outline"
