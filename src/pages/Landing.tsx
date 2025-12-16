@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Music2, Zap, FileAudio, Download, CheckCircle2, Sparkles } from "lucide-react";
+import { Music2, Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
 
 const Landing = () => {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -16,6 +19,14 @@ const Landing = () => {
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
             <Link to="/dashboard">
               <Button variant="gradient">Get Started</Button>
             </Link>
