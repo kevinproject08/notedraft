@@ -1,7 +1,8 @@
 import { useState } from "react";
 import UploadSection from "@/components/UploadSection";
 import ResultsSection from "@/components/ResultsSection";
-import { Music2, Moon, Sun } from "lucide-react";
+import { Music2, Moon, Sun, BarChart3 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
@@ -26,14 +27,22 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">Audio / Video → MIDI Converter</p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
+            <div className="flex items-center gap-3">
+              <Link to="/metrics">
+                <Button variant="outline" size="sm">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Metrics
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="rounded-full"
+              >
+                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+            </div>
           </div>
         </div>
       </header>
