@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Music2, Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings } from "lucide-react";
+import { Music2, Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
@@ -61,6 +61,12 @@ const Features = () => {
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
           <div className="flex items-center gap-4">
+            <Link to="/metrics">
+              <Button variant="outline" size="sm">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Metrics
+              </Button>
+            </Link>
             <Button
               variant="ghost"
               size="icon"
