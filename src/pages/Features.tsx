@@ -123,10 +123,11 @@ const Features = () => {
         </div>
       </section>
 
-      {/* Technical Specs Section */}
+      {/* Technical Recommendations Section */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Technical Specifications</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">Technical Recommendations</h2>
+          <p className="text-center text-muted-foreground mb-12">Larger files and longer durations may take longer transcription times</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">50MB</div>
