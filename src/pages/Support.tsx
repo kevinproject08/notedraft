@@ -85,7 +85,7 @@ const Support = () => {
               </CardHeader>
               <CardContent>
                 <a 
-                  href="https://instagram.com/note.draft" 
+                  href="https://www.instagram.com/note.draft/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-lg font-medium text-primary hover:underline"
