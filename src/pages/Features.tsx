@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Music2, Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3 } from "lucide-react";
+import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 
 const Features = () => {
   const { theme, setTheme } = useTheme();
@@ -56,8 +57,10 @@ const Features = () => {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <Music2 className="h-8 w-8 text-primary" />
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
+            </div>
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
           <div className="flex items-center gap-4">
@@ -164,7 +167,7 @@ const Features = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Music2 className="h-6 w-6 text-primary" />
+                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
                 <span className="font-bold">NoteDraft</span>
               </div>
               <p className="text-sm text-muted-foreground">
