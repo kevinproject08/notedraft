@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Music2, Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3 } from "lucide-react";
+import { Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3, Music } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 
 const Landing = () => {
   const { theme, setTheme } = useTheme();
@@ -13,9 +14,7 @@ const Landing = () => {
       <nav className="border-b border-border bg-background sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-accent shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-              <Music2 className="h-6 w-6 text-primary-foreground" />
-            </div>
+            <img src={notedraftLogo} alt="NoteDraft logo" className="h-10 w-10" />
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
           <div className="flex items-center gap-3">
@@ -150,7 +149,7 @@ const Landing = () => {
               { icon: Zap, title: "Lightning Fast", description: "Process files in seconds with AI acceleration" },
               { icon: CheckCircle2, title: "High Accuracy", description: "Advanced AI ensures precise note detection" },
               { icon: FileAudio, title: "Multiple Formats", description: "Support for WAV, MP3, MP4, and more" },
-              { icon: Music2, title: "Range Selection", description: "Choose specific sections to transcribe" },
+              { icon: Music, title: "Range Selection", description: "Choose specific sections to transcribe" },
               { icon: Download, title: "Instant Download", description: "Get your MIDI files immediately" },
               { icon: Sparkles, title: "Clean Output", description: "Professional-quality MIDI files" },
             ].map((feature, i) => (
@@ -192,7 +191,7 @@ const Landing = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Music2 className="h-6 w-6 text-primary" />
+                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
                 <span className="font-bold">NoteDraft</span>
               </div>
               <p className="text-sm text-muted-foreground">
