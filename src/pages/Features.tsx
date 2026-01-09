@@ -131,11 +131,11 @@ const Features = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">50MB</div>
-              <p className="text-muted-foreground">Maximum file size</p>
+              <p className="text-muted-foreground">Recommended file size</p>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">10min</div>
-              <p className="text-muted-foreground">Max audio duration</p>
+              <p className="text-muted-foreground">Recommended audio duration</p>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">5+</div>
