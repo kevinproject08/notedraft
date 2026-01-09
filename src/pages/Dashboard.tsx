@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import UploadSection from "@/components/UploadSection";
 import ResultsSection from "@/components/ResultsSection";
 import notedraftLogo from "@/assets/notedraft-logo.png";
+import Footer from "@/components/Footer";
 
 const Dashboard = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -90,6 +91,8 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

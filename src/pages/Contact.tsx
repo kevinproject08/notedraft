@@ -4,6 +4,7 @@ import { Mail, Moon, Sun, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import notedraftLogo from "@/assets/notedraft-logo.png";
+import Footer from "@/components/Footer";
 
 const Contact = () => {
   const { theme, setTheme } = useTheme();
@@ -81,42 +82,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-12 mt-auto">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-                <span className="font-bold">NoteDraft</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Professional audio-to-MIDI conversion powered by AI
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/#how-it-works" className="hover:text-foreground">How It Works</Link></li>
-                <li><Link to="/features" className="hover:text-foreground">Features</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/guide" className="hover:text-foreground">Complete Guide</Link></li>
-                <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            <p>© 2025 NoteDraft. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

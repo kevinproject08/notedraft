@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getMetrics, type MetricsResponse } from "@/lib/api";
 import { useTheme } from "next-themes";
 import notedraftLogo from "@/assets/notedraft-logo.png";
+import Footer from "@/components/Footer";
 
 const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
@@ -172,6 +173,8 @@ const Metrics = () => {
           </CardContent>
         </Card>
       </main>
+
+      <Footer />
     </div>
   );
 };

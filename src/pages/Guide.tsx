@@ -4,6 +4,7 @@ import { FileAudio, Download, FolderOpen, CheckCircle2, AlertCircle, ArrowLeft, 
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import notedraftLogo from "@/assets/notedraft-logo.png";
+import Footer from "@/components/Footer";
 
 const Guide = () => {
   const { theme, setTheme } = useTheme();
@@ -331,12 +332,7 @@ const Guide = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8 mt-12">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 NoteDraft. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
