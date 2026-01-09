@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Music2, Moon, Sun, BarChart3 } from "lucide-react";
+import { Moon, Sun, BarChart3, Music2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import UploadSection from "@/components/UploadSection";
 import ResultsSection from "@/components/ResultsSection";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 
 const Dashboard = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -20,8 +21,8 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-accent shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-                <Music2 className="h-6 w-6 text-primary-foreground" />
+              <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
               </div>
               <div>
                 <h1 className="text-xl font-bold">NoteDraft</h1>
