@@ -14,7 +14,9 @@ const Landing = () => {
       <nav className="border-b border-border bg-background sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src={notedraftLogo} alt="NoteDraft logo" className="h-10 w-10" />
+            <div className="p-1.5 rounded-lg bg-background border border-border shadow-sm">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-7 w-7" />
+            </div>
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
           <div className="flex items-center gap-3">
