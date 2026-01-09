@@ -14,8 +14,8 @@ const Landing = () => {
       <nav className="border-b border-border bg-background sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-input bg-background">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-5 w-5" />
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
             </div>
             <span className="text-xl font-bold">NoteDraft</span>
           </Link>
