@@ -91,99 +91,126 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-24 bg-card/30">
+      {/* Feature Cards */}
+      <section className="py-24 bg-card/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-muted-foreground text-lg">Simple, fast, and accurate</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="text-center hover:shadow-xl transition-shadow">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="hover:shadow-xl transition-shadow">
               <CardHeader>
-                <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <FileAudio className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle>1. Upload</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <FileAudio className="h-5 w-5 text-primary" />
+                  Audio & Video Input
+                </CardTitle>
                 <CardDescription>
-                  Upload your audio or video file
+                  Upload WAV, MP3, or video files and let NoteDraft handle the transcription pipeline.
                 </CardDescription>
               </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Piano, ensemble, and more
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Handles real-world performance recordings
+                  </div>
+                </div>
+              </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-xl transition-shadow">
+            <Card className="hover:shadow-xl transition-shadow">
               <CardHeader>
-                <div className="mx-auto w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4">
-                  <Zap className="h-8 w-8 text-accent" />
-                </div>
-                <CardTitle>2. Process</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  AI-Powered Cleanup
+                </CardTitle>
                 <CardDescription>
-                  AI analyzes and transcribes to MIDI
+                  Custom post-processing filters out ghost notes and overtones before you ever open the MIDI.
                 </CardDescription>
               </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Designed for real practice recordings
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Built from actual student use cases
+                  </div>
+                </div>
+              </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-xl transition-shadow">
+            <Card className="hover:shadow-xl transition-shadow">
               <CardHeader>
-                <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mb-4">
-                  <Download className="h-8 w-8 text-success" />
-                </div>
-                <CardTitle>3. Download</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Download className="h-5 w-5 text-primary" />
+                  MIDI Ready for Editing
+                </CardTitle>
                 <CardDescription>
-                  Get your MIDI file instantly
+                  Export MIDI that drops straight into MuseScore, Logic, Ableton, or your favorite DAW.
                 </CardDescription>
               </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Clean tracks instead of clustered note spam
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Save hours of manual transcription work
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* Use Cases */}
       <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Powerful Features</h2>
-            <p className="text-muted-foreground text-lg">Everything you need for professional transcription</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              { icon: Zap, title: "Lightning Fast", description: "Process files in seconds with AI acceleration" },
-              { icon: CheckCircle2, title: "High Accuracy", description: "Advanced AI ensures precise note detection" },
-              { icon: FileAudio, title: "Multiple Formats", description: "Support for WAV, MP3, MP4, and more" },
-              { icon: Music, title: "Range Selection", description: "Choose specific sections to transcribe" },
-              { icon: Download, title: "Instant Download", description: "Get your MIDI files immediately" },
-              { icon: Sparkles, title: "Clean Output", description: "Professional-quality MIDI files" },
-            ].map((feature, i) => (
-              <Card key={i} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <feature.icon className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  <CardDescription>{feature.description}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* For Musicians */}
-      <section className="py-24 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl font-bold">For Musicians & Composers</h2>
-            <p className="text-lg text-muted-foreground">
-              Whether you're transcribing live recordings, converting audio sketches, or analyzing musical ideas,
-              NoteDraft gives you the tools to work faster and more efficiently.
-            </p>
-            <div className="pt-6">
-              <Link to="/dashboard">
-                <Button size="lg" variant="gradient">
-                  Start Converting Now
-                </Button>
-              </Link>
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold flex items-center gap-3">
+                <Music className="h-8 w-8 text-primary" />
+                Built Around Real Musicians
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                NoteDraft started as a way to turn real piano practice sessions into editable scores. It now helps
+                composers, students, and teachers capture ideas faster without getting stuck in manual MIDI entry.
+              </p>
+              <p className="text-lg text-muted-foreground">
+                Whether you're preparing for auditions, sketching a new piece, or documenting an improvisation,
+                NoteDraft turns raw audio into something you can keep refining.
+              </p>
             </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Perfect For</CardTitle>
+                <CardDescription>Real use cases instead of demo-perfect recordings.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-muted-foreground">🎓 Students transcribing repertoire or etudes for analysis.</p>
+                  <p className="text-muted-foreground">🎧 Producers converting melodic ideas into MIDI to arrange later.</p>
+                  <p className="text-muted-foreground">🎼 Composers capturing improv sessions before the ideas vanish.</p>
+                  <p className="text-muted-foreground">🎻 Teachers creating quick study materials from their own playing.</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-16">
+            <Link to="/dashboard">
+              <Button size="lg" variant="gradient">
+                Start Converting Now
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
