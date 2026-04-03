@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, Loader2, FileAudio, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { transcribeFile, getJobStatus, cancelJob } from "@/lib/api";
+import { transcribeFile, getJobStatus, cancelJob, type Instrument } from "@/lib/api";
 
 const ACCEPTED_FORMATS = ".wav,.mp3,.flac,.m4a,.aac,.ogg,.oga,.wma,.aif,.aiff,.aifc,.opus,.mp4,.mov,.mkv,.avi,.webm,.m4v,.mpg,.mpeg,.wmv,.mid,.midi";
 
@@ -34,6 +35,7 @@ const UploadSection = ({
   const [duration, setDuration] = useState<number>(0);
   const [currentJobId, setCurrentJobId] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string>("");
+  const [instrument, setInstrument] = useState<Instrument>("piano");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -110,7 +112,7 @@ const UploadSection = ({
 
     try {
       // Start the transcription job
-      const result = await transcribeFile(selectedFile);
+      const result = await transcribeFile(selectedFile, instrument);
       const jobId = result.job_id;
       setCurrentJobId(jobId);
 
@@ -199,6 +201,22 @@ const UploadSection = ({
               </span>
             </div>
           </Button>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Instrument</label>
+          <Select value={instrument} onValueChange={(val) => setInstrument(val as Instrument)} disabled={isLoading}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select instrument" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="piano">🎹 Piano</SelectItem>
+              <SelectItem value="violin">🎻 Violin</SelectItem>
+              <SelectItem value="viola">🎻 Viola</SelectItem>
+              <SelectItem value="cello">🎻 Cello</SelectItem>
+              <SelectItem value="bass">🎸 Bass</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {error && (
