@@ -112,7 +112,7 @@ const UploadSection = ({
 
     try {
       // Start the transcription job
-      const result = await transcribeFile(selectedFile);
+      const result = await transcribeFile(selectedFile, instrument);
       const jobId = result.job_id;
       setCurrentJobId(jobId);
 
