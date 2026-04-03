@@ -210,11 +210,11 @@ const UploadSection = ({
               <SelectValue placeholder="Select instrument" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="piano">🎹 Piano</SelectItem>
-              <SelectItem value="violin">🎻 Violin</SelectItem>
-              <SelectItem value="viola">🎻 Viola</SelectItem>
-              <SelectItem value="cello">🎻 Cello</SelectItem>
-              <SelectItem value="bass">🎸 Bass</SelectItem>
+              <SelectItem value="piano">Piano</SelectItem>
+              <SelectItem value="violin">Violin</SelectItem>
+              <SelectItem value="viola">Viola</SelectItem>
+              <SelectItem value="cello">Cello</SelectItem>
+              <SelectItem value="bass">Bass</SelectItem>
             </SelectContent>
           </Select>
         </div>
