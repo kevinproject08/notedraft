@@ -203,6 +203,22 @@ const UploadSection = ({
           </Button>
         </div>
 
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Instrument</label>
+          <Select value={instrument} onValueChange={(val) => setInstrument(val as Instrument)} disabled={isLoading}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select instrument" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="piano">🎹 Piano</SelectItem>
+              <SelectItem value="violin">🎻 Violin</SelectItem>
+              <SelectItem value="viola">🎻 Viola</SelectItem>
+              <SelectItem value="cello">🎻 Cello</SelectItem>
+              <SelectItem value="bass">🎸 Bass</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         {error && (
           <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
             <p className="text-sm text-destructive font-medium">Error: {error}</p>
