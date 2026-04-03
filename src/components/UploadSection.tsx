@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, Loader2, FileAudio, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { transcribeFile, getJobStatus, cancelJob } from "@/lib/api";
+import { transcribeFile, getJobStatus, cancelJob, type Instrument } from "@/lib/api";
 
 const ACCEPTED_FORMATS = ".wav,.mp3,.flac,.m4a,.aac,.ogg,.oga,.wma,.aif,.aiff,.aifc,.opus,.mp4,.mov,.mkv,.avi,.webm,.m4v,.mpg,.mpeg,.wmv,.mid,.midi";
 

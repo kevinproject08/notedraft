@@ -29,11 +29,22 @@ export interface MetricsResponse {
  * POST /v1/transcribe
  * Returns a job_id for status polling
  */
-export async function transcribeFile(file: File): Promise<TranscribeResponse> {
+export type Instrument = "piano" | "violin" | "viola" | "cello" | "bass";
+
+const INSTRUMENT_ENDPOINTS: Record<Instrument, string> = {
+  piano: "/v1/transcribe",
+  violin: "/v1/violin",
+  viola: "/v1/viola",
+  cello: "/v1/cello",
+  bass: "/v1/bass",
+};
+
+export async function transcribeFile(file: File, instrument: Instrument = "piano"): Promise<TranscribeResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch(`${API_BASE}/v1/transcribe`, {
+  const endpoint = INSTRUMENT_ENDPOINTS[instrument];
+  const res = await fetch(`${API_BASE}${endpoint}`, {
     method: "POST",
     body: formData,
   });
