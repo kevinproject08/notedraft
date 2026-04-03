@@ -35,6 +35,7 @@ const UploadSection = ({
   const [duration, setDuration] = useState<number>(0);
   const [currentJobId, setCurrentJobId] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string>("");
+  const [instrument, setInstrument] = useState<Instrument>("piano");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
