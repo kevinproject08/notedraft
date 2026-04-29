@@ -41,7 +41,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© 2025 NoteDraft. All rights reserved.</p>
+          <p>© 2026 NoteDraft. All rights reserved.</p>
           <Link to="/terms" className="hover:text-foreground">Terms of Service</Link>
         </div>
       </div>
