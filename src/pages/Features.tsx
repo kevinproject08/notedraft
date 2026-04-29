@@ -51,11 +51,6 @@ const Features = () => {
       title: "Instant Downloads",
       description: "Get your MIDI files immediately after processing. No waiting, no email verification required.",
     },
-    {
-      icon: Settings,
-      title: "No Account Required",
-      description: "Start transcribing right away without creating an account. Just upload and convert.",
-    },
   ];
 
   return (
