@@ -29,7 +29,6 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/guide" className="hover:text-foreground">Complete Guide</Link></li>
               <li><Link to="/#testimonials" className="hover:text-foreground">Testimonials</Link></li>
-              <li><Link to="/support" className="hover:text-foreground">Support</Link></li>
             </ul>
           </div>
 
@@ -37,6 +36,16 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Connect</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+              <li>
+                <a
+                  href="https://www.instagram.com/note.draft/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground"
+                >
+                  Instagram
+                </a>
+              </li>
             </ul>
           </div>
         </div>
