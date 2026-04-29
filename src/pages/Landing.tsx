@@ -278,7 +278,7 @@ const Landing = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground italic">
-                    "The AI cleanup is the real deal. No more chasing ghost notes — the MIDI drops straight into Logic and just works."
+                    "The AI cleanup is the real deal. No more chasing ghost notes, and the MIDI drops straight into Logic and just works."
                   </p>
                   <div>
                     <p className="font-semibold">Jordan T.</p>
