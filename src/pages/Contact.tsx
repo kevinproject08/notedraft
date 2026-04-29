@@ -8,6 +8,17 @@ import Footer from "@/components/Footer";
 
 const Contact = () => {
   const { theme, setTheme } = useTheme();
+  const instagramUrl = "https://www.instagram.com/note.draft/";
+
+  const handleInstagramClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    const openedWindow = window.open(instagramUrl, "_blank", "noopener,noreferrer");
+
+    if (!openedWindow) {
+      window.location.assign(instagramUrl);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -92,7 +103,8 @@ const Contact = () => {
             </CardHeader>
             <CardContent>
               <a
-                href="https://www.instagram.com/note.draft/"
+                href={instagramUrl}
+                onClick={handleInstagramClick}
                 rel="noopener noreferrer"
                 className="text-lg font-medium text-primary hover:underline"
               >
