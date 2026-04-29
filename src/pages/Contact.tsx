@@ -12,12 +12,8 @@ const Contact = () => {
 
   const handleInstagramClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-
-    const openedWindow = window.open(instagramUrl, "_blank", "noopener,noreferrer");
-
-    if (!openedWindow) {
-      window.location.assign(instagramUrl);
-    }
+    event.stopPropagation();
+    window.open(instagramUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -105,6 +101,7 @@ const Contact = () => {
               <a
                 href={instagramUrl}
                 onClick={handleInstagramClick}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-lg font-medium text-primary hover:underline"
               >
