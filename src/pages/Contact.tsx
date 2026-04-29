@@ -10,12 +10,6 @@ const Contact = () => {
   const { theme, setTheme } = useTheme();
   const instagramUrl = "https://www.instagram.com/note.draft/";
 
-  const handleInstagramClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    window.open(instagramUrl, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -100,9 +94,9 @@ const Contact = () => {
             <CardContent>
               <a
                 href={instagramUrl}
-                onClick={handleInstagramClick}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer external"
+                referrerPolicy="no-referrer"
                 className="text-lg font-medium text-primary hover:underline"
               >
                 @note.draft
