@@ -129,7 +129,7 @@ const Landing = () => {
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Piano, ensemble, and more
+                    Piano, violin, viola, cello, double bass
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-primary" />
