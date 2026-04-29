@@ -72,6 +72,30 @@ const Contact = () => {
             </CardContent>
           </Card>
 
+          <Card className="text-left">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Instagram className="h-6 w-6 text-primary" />
+                </div>
+                Instagram
+              </CardTitle>
+              <CardDescription>
+                Follow us for updates, tips, and behind-the-scenes content.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <a
+                href="https://www.instagram.com/note.draft/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg font-medium text-primary hover:underline"
+              >
+                @note.draft
+              </a>
+            </CardContent>
+          </Card>
+
           <div className="pt-6">
             <Link to="/dashboard">
               <Button size="lg" variant="gradient">
