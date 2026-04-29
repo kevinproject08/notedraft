@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3, Music } from "lucide-react";
+import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, BarChart3, Music } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import notedraftLogo from "@/assets/notedraft-logo.png";
@@ -50,11 +50,6 @@ const Features = () => {
       icon: Download,
       title: "Instant Downloads",
       description: "Get your MIDI files immediately after processing. No waiting, no email verification required.",
-    },
-    {
-      icon: Settings,
-      title: "No Account Required",
-      description: "Start transcribing right away without creating an account. Just upload and convert.",
     },
   ];
 
