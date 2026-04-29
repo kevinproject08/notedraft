@@ -91,6 +91,26 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Demo Video */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h2 className="text-3xl md:text-4xl font-bold">See NoteDraft in Action</h2>
+            <p className="text-muted-foreground">Watch a quick demo of the audio-to-MIDI workflow.</p>
+            <div className="relative w-full overflow-hidden rounded-xl border border-border shadow-xl" style={{ paddingBottom: "56.25%" }}>
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/9A7G1vqw3ao"
+                title="NoteDraft Demo"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Feature Cards */}
       <section className="py-24 bg-card/30">
         <div className="container mx-auto px-4">
