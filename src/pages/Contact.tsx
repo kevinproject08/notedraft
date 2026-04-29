@@ -101,6 +101,7 @@ const Contact = () => {
               <a
                 href={instagramUrl}
                 onClick={handleInstagramClick}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-lg font-medium text-primary hover:underline"
               >
