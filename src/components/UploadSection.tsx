@@ -37,6 +37,16 @@ const UploadSection = ({
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [instrument, setInstrument] = useState<Instrument>("piano");
 
+  // Pre-select instrument from ?instrument=... query param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const param = params.get("instrument");
+    const valid: Instrument[] = ["piano", "violin", "viola", "cello", "bass"];
+    if (param && (valid as string[]).includes(param)) {
+      setInstrument(param as Instrument);
+    }
+  }, []);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
