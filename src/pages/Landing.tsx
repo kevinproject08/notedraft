@@ -261,7 +261,7 @@ const Landing = () => {
                     "NoteDraft saved me hours of manual transcription. I recorded my practice and had clean MIDI in MuseScore minutes later."
                   </p>
                   <div>
-                    <p className="font-semibold">Maya R.</p>
+                    <p className="font-semibold">Daniel S.</p>
                     <p className="text-sm text-muted-foreground">Piano Student</p>
                   </div>
                 </CardContent>
