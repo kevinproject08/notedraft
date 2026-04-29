@@ -36,16 +36,6 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Connect</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
-              <li>
-                <a
-                  href="https://www.instagram.com/note.draft/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-foreground"
-                >
-                  Instagram
-                </a>
-              </li>
             </ul>
           </div>
         </div>
