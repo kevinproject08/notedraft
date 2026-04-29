@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3 } from "lucide-react";
+import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, Settings, BarChart3, Music } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import notedraftLogo from "@/assets/notedraft-logo.png";
@@ -11,6 +11,11 @@ const Features = () => {
   const { theme, setTheme } = useTheme();
 
   const features = [
+    {
+      icon: Music,
+      title: "Multi-Instrument Support",
+      description: "Dedicated transcription models for piano, violin, viola, cello, and double bass — each tuned to its instrument's tone.",
+    },
     {
       icon: Zap,
       title: "Lightning Fast Processing",
@@ -123,6 +128,26 @@ const Features = () => {
         </div>
       </section>
 
+      {/* Supported Instruments Section */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4">Supported Instruments</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Choose your instrument before uploading. Each one routes to a model trained specifically for that instrument's timbre and range.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+            {["Piano", "Violin", "Viola", "Cello", "Double Bass"].map((name) => (
+              <Card key={name} className="bg-card/50 border-border hover:bg-card/80 transition-colors">
+                <CardContent className="p-6 text-center">
+                  <Music className="h-8 w-8 text-primary mx-auto mb-3" />
+                  <h3 className="font-semibold">{name}</h3>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Technical Recommendations Section */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
@@ -138,8 +163,8 @@ const Features = () => {
               <p className="text-muted-foreground">Recommended audio duration</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">5+</div>
-              <p className="text-muted-foreground">Supported formats</p>
+              <div className="text-4xl font-bold text-primary mb-2">5</div>
+              <p className="text-muted-foreground">Supported instruments</p>
             </div>
           </div>
         </div>
