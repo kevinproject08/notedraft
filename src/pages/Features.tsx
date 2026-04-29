@@ -131,13 +131,21 @@ const Features = () => {
             Choose your instrument before uploading. Each one routes to a model trained specifically for that instrument's timbre and range.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-            {["Piano", "Violin", "Viola", "Cello", "Double Bass"].map((name) => (
-              <Card key={name} className="bg-card/50 border-border hover:bg-card/80 transition-colors">
-                <CardContent className="p-6 text-center">
-                  <Music className="h-8 w-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold">{name}</h3>
-                </CardContent>
-              </Card>
+            {[
+              { name: "Piano", value: "piano" },
+              { name: "Violin", value: "violin" },
+              { name: "Viola", value: "viola" },
+              { name: "Cello", value: "cello" },
+              { name: "Double Bass", value: "bass" },
+            ].map((inst) => (
+              <Link key={inst.value} to={`/dashboard?instrument=${inst.value}`} className="block">
+                <Card className="bg-card/50 border-border hover:bg-card/80 hover:border-primary transition-colors cursor-pointer h-full">
+                  <CardContent className="p-6 text-center">
+                    <Music className="h-8 w-8 text-primary mx-auto mb-3" />
+                    <h3 className="font-semibold">{inst.name}</h3>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
