@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3, Music } from "lucide-react";
+import { Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3, Music, Quote, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import notedraftLogo from "@/assets/notedraft-logo.png";
