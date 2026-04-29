@@ -75,8 +75,14 @@ const Contact = () => {
           <Card className="text-left">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Instagram className="h-6 w-6 text-primary" />
+                <div
+                  className="p-2 rounded-lg"
+                  style={{
+                    background:
+                      "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
+                  }}
+                >
+                  <Instagram className="h-6 w-6 text-white" />
                 </div>
                 Instagram
               </CardTitle>
@@ -87,7 +93,6 @@ const Contact = () => {
             <CardContent>
               <a
                 href="https://www.instagram.com/note.draft/"
-                target="_blank"
                 rel="noopener noreferrer"
                 className="text-lg font-medium text-primary hover:underline"
               >
