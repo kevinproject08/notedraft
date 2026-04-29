@@ -12,6 +12,11 @@ const Features = () => {
 
   const features = [
     {
+      icon: Music,
+      title: "Multi-Instrument Support",
+      description: "Dedicated transcription models for piano, violin, viola, cello, and double bass — each tuned to its instrument's tone.",
+    },
+    {
       icon: Zap,
       title: "Lightning Fast Processing",
       description: "Convert audio to MIDI in seconds, not minutes. Our optimized AI pipeline delivers results faster than traditional methods.",
