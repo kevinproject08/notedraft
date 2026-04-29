@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Moon, Sun, BarChart3 } from "lucide-react";
+import { Mail, Moon, Sun, BarChart3, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import notedraftLogo from "@/assets/notedraft-logo.png";
