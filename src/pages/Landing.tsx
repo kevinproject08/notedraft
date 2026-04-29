@@ -235,6 +235,82 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section id="testimonials" className="py-24 bg-card/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center space-y-4 mb-12">
+              <h2 className="text-4xl font-bold">What Musicians Are Saying</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Real feedback from students, composers, and producers using NoteDraft.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="hover:shadow-xl transition-shadow">
+                <CardHeader>
+                  <Quote className="h-6 w-6 text-primary mb-2" />
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground italic">
+                    "NoteDraft saved me hours of manual transcription. I recorded my practice and had clean MIDI in MuseScore minutes later."
+                  </p>
+                  <div>
+                    <p className="font-semibold">Maya R.</p>
+                    <p className="text-sm text-muted-foreground">Piano Student</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-xl transition-shadow">
+                <CardHeader>
+                  <Quote className="h-6 w-6 text-primary mb-2" />
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground italic">
+                    "The AI cleanup is the real deal. No more chasing ghost notes — the MIDI drops straight into Logic and just works."
+                  </p>
+                  <div>
+                    <p className="font-semibold">Jordan T.</p>
+                    <p className="text-sm text-muted-foreground">Producer & Composer</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-xl transition-shadow">
+                <CardHeader>
+                  <Quote className="h-6 w-6 text-primary mb-2" />
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground italic">
+                    "I use it to capture improv sessions before the ideas vanish. It's become a core part of my composing workflow."
+                  </p>
+                  <div>
+                    <p className="font-semibold">Elena K.</p>
+                    <p className="text-sm text-muted-foreground">Composer</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
