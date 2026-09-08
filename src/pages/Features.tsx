@@ -1,11 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, Music } from "lucide-react";
+import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, BarChart3, Music } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
-import SiteHeader from "@/components/SiteHeader";
 
 const Features = () => {
+  const { theme, setTheme } = useTheme();
+
   const features = [
     {
       icon: Music,
@@ -51,12 +55,41 @@ const Features = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SiteHeader />
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 border-b border-border bg-background">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
+            </div>
+            <span className="text-xl font-bold">NoteDraft</span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/metrics">
+              <Button variant="outline" size="sm">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Metrics
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            <Link to="/dashboard">
+              <Button>Get Started</Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="mb-6 font-heading text-4xl font-semibold sm:text-5xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Powerful Features for
             <span className="text-primary"> Music Creators</span>
           </h1>

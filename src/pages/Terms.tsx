@@ -1,15 +1,46 @@
+import { Button } from "@/components/ui/button";
+import { Moon, Sun, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
-import SiteHeader from "@/components/SiteHeader";
 
 const Terms = () => {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="min-h-screen bg-background">
-      <SiteHeader actionLabel="Back to home" actionTo="/" showMetrics={false} />
+      {/* Navigation */}
+      <nav className="border-b border-border bg-background sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
+            </div>
+            <span className="text-xl font-bold">NoteDraft</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            <Link to="/">
+              <Button variant="outline">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
       {/* Content */}
-      <main className="container max-w-4xl px-4 py-16">
-        <h1 className="mb-8 font-heading text-4xl font-semibold">Terms of Service</h1>
+      <main className="container mx-auto px-4 py-16 max-w-4xl">
+        <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
         <p className="text-muted-foreground mb-8">Last updated: January 2026</p>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">

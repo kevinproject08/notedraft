@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, Loader2, FileAudio, X, SlidersHorizontal } from "lucide-react";
+import { Upload, Loader2, FileAudio, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { transcribeFile, getJobStatus, cancelJob, type Instrument } from "@/lib/api";
 
@@ -173,15 +174,17 @@ const UploadSection = ({
   };
 
   return (
-    <section className="min-h-[32rem] bg-card" aria-labelledby="upload-heading">
-      <div className="border-b border-border p-5 sm:p-6">
-        <h2 id="upload-heading" className="flex items-center gap-2 font-heading text-xl font-semibold">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          Audio source
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">Add a performance recording and choose the instrument you played.</p>
-      </div>
-      <div className="space-y-5 p-5 sm:p-6">
+          Upload & Process
+        </CardTitle>
+        <CardDescription>
+          Upload your audio, video, or MIDI file to convert it to MIDI format
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
         <div className="space-y-2">
           <input
             ref={fileInputRef}
@@ -194,26 +197,26 @@ const UploadSection = ({
           
           <Button
             variant="outline"
-            className="h-36 w-full border-2 border-dashed bg-secondary/25 hover:border-primary/50 hover:bg-primary/5"
+            className="w-full h-32 border-2 border-dashed hover:border-primary hover:bg-primary/5 transition-colors"
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
           >
             <div className="flex flex-col items-center gap-2">
               <FileAudio className="h-8 w-8 text-muted-foreground" />
-              <span className="max-w-full break-all text-sm font-semibold sm:break-normal">
+              <span className="text-sm font-medium">
                 {selectedFile ? selectedFile.name : "Click to select a file"}
               </span>
               <span className="text-xs text-muted-foreground">
-                Audio, video, or MIDI files
+                Audio, Video, or MIDI files supported
               </span>
             </div>
           </Button>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold" htmlFor="instrument-select">Instrument</label>
+          <label className="text-sm font-medium">Instrument</label>
           <Select value={instrument} onValueChange={(val) => setInstrument(val as Instrument)} disabled={isLoading}>
-            <SelectTrigger id="instrument-select" className="h-11 bg-background">
+            <SelectTrigger>
               <SelectValue placeholder="Select instrument" />
             </SelectTrigger>
             <SelectContent>
@@ -227,29 +230,25 @@ const UploadSection = ({
         </div>
 
         {error && (
-          <div className="border-l-2 border-destructive bg-destructive/10 p-4" role="alert">
-            <p className="break-words text-sm font-medium text-destructive">{error}</p>
+          <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+            <p className="text-sm text-destructive font-medium">Error: {error}</p>
           </div>
         )}
 
         {selectedFile && (
           <div className="space-y-4">
-            <div className="bg-muted/70 p-4">
-              <p className="text-xs font-semibold text-muted-foreground">Selected file</p>
-              <p className="mt-1 break-all text-sm font-semibold sm:break-normal">{selectedFile.name}</p>
+            <div className="p-3 rounded-lg bg-muted">
+              <p className="text-sm text-muted-foreground">Selected file:</p>
+              <p className="text-sm font-medium truncate">{selectedFile.name}</p>
               <p className="text-xs text-muted-foreground mt-1">
                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
 
             <div className="space-y-2">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <label className="flex items-center gap-2 text-sm font-semibold">
-                  <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                  Transcription range
-                </label>
-                <span className="text-sm tabular-nums text-muted-foreground">{duration > 0 ? `${formatTime(getStartTime())} – ${formatTime(getEndTime())}` : `${range[0]}% – ${range[1]}%`}</span>
-              </div>
+              <label className="text-sm font-medium">
+                Transcription Range: {duration > 0 ? `${formatTime(getStartTime())} - ${formatTime(getEndTime())}` : `${range[0]}% - ${range[1]}%`}
+              </label>
               <Slider
                 value={range}
                 onValueChange={setRange}
@@ -262,7 +261,7 @@ const UploadSection = ({
               />
               <p className="text-xs text-muted-foreground">
                 {duration > 0 
-                  ? `Total duration: ${formatTime(duration)} · Selection: ${getEndTime() - getStartTime()} seconds`
+                  ? `Total duration: ${formatTime(duration)} • Transcribing: ${getEndTime() - getStartTime()}s`
                   : "Select the portion of the file to transcribe"}
               </p>
             </div>
@@ -271,17 +270,17 @@ const UploadSection = ({
 
         {isLoading && (
           <div className="space-y-3">
-            <div className="flex justify-between gap-4 text-sm" aria-live="polite">
+            <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">
                 {progress === 0 ? statusMessage : "Processing..."}
               </span>
               <span className="font-medium">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="w-full" />
-            <p className="text-sm text-muted-foreground text-center">
-              {progress === 0
-                ? "Progress will appear when transcription begins."
-                : "This may take up to 10 minutes. Keep this tab open."}
+            <p className="text-xs text-muted-foreground text-center">
+              {progress === 0 
+                ? "Transcription progress will display once file processing begins"
+                : "Process could take up to 10 minutes, please keep tab open"}
             </p>
             <Button
               variant="outline"
@@ -300,7 +299,7 @@ const UploadSection = ({
           disabled={!selectedFile || isLoading}
           className="w-full"
           size="lg"
-          variant="default"
+          variant="gradient"
         >
           {isLoading ? (
             <>
@@ -310,12 +309,12 @@ const UploadSection = ({
           ) : (
             <>
               <Upload className="mr-2 h-4 w-4" />
-              Start transcription
+              Process File
             </>
           )}
         </Button>
-      </div>
-    </section>
+      </CardContent>
+    </Card>
   );
 };
 

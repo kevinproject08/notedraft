@@ -1,21 +1,52 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Instagram } from "lucide-react";
+import { Mail, Moon, Sun, BarChart3, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
-import SiteHeader from "@/components/SiteHeader";
 
 const Contact = () => {
+  const { theme, setTheme } = useTheme();
   const instagramUrl = "https://www.instagram.com/note.draft/";
 
   return (
     <div className="min-h-screen bg-background">
-      <SiteHeader />
+      {/* Navigation */}
+      <nav className="border-b border-border bg-background sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
+            </div>
+            <span className="text-xl font-bold">NoteDraft</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/metrics">
+              <Button variant="outline" size="sm">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Metrics
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            <Link to="/dashboard">
+              <Button variant="gradient">Get Started</Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
       {/* Content */}
-      <main className="container px-4 py-16 sm:py-20">
+      <div className="container mx-auto px-4 py-20">
         <div className="max-w-2xl mx-auto text-center space-y-8">
-          <h1 className="font-heading text-4xl font-semibold sm:text-5xl">Contact Us</h1>
+          <h1 className="text-4xl md:text-5xl font-bold">Contact Us</h1>
           <p className="text-lg text-muted-foreground">
             Have questions, feedback, or need support? We'd love to hear from you.
           </p>
@@ -75,13 +106,13 @@ const Contact = () => {
 
           <div className="pt-6">
             <Link to="/dashboard">
-              <Button size="lg" variant="default">
+              <Button size="lg" variant="gradient">
                 Get Started with NoteDraft
               </Button>
             </Link>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>
