@@ -1,89 +1,50 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3, Music, Quote, Star } from "lucide-react";
+import { Zap, FileAudio, Download, CheckCircle2, Music, Quote, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 const Landing = () => {
-  const { theme, setTheme } = useTheme();
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-            </div>
-            <span className="text-xl font-bold">NoteDraft</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/metrics">
-              <Button variant="outline" size="sm">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Metrics
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Link to="/dashboard">
-              <Button variant="gradient">Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <SiteHeader />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-background"></div>
-        <div className="container mx-auto px-4 py-24 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent-foreground text-sm font-medium mb-4">
-              <Sparkles className="inline h-4 w-4 mr-2" />
-              AI-Powered Transcription
-            </div>
+      <section className="relative overflow-hidden border-b border-border bg-secondary/30">
+        <div className="staff-lines absolute inset-x-0 bottom-8 h-16 opacity-60" aria-hidden="true" />
+        <div className="container relative z-10 px-4 py-20 sm:py-24">
+          <div className="mx-auto max-w-4xl text-center space-y-7">
+            <p className="text-sm font-semibold text-primary">Audio-to-MIDI transcription</p>
             
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Transform Audio into MIDI in Seconds
+            <h1 className="font-heading text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+              Turn a performance into editable MIDI
             </h1>
             
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional audio-to-MIDI conversion powered by AI. Perfect for musicians, composers, and producers.
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Transcribe piano, violin, viola, cello, and double bass recordings into MIDI for arranging, notation, and production.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/dashboard">
-                <Button size="lg" variant="gradient" className="text-lg px-8">
-                  Upload Audio
+                <Button size="lg">
+                  Start a transcription
                 </Button>
               </Link>
               <Link to="/learn-more">
-                <Button size="lg" variant="outline" className="text-lg px-8">
+                <Button size="lg" variant="outline">
                   Learn More
                 </Button>
               </Link>
             </div>
 
             {/* Waveform Animation */}
-            <div className="mt-12 flex items-end justify-center gap-1 h-24">
-              {[...Array(40)].map((_, i) => (
+            <div className="mx-auto mt-10 flex h-20 max-w-2xl items-center justify-center gap-1 border-y border-border bg-background/70 px-3" aria-label="Audio waveform preview">
+              {[14,20,30,42,55,35,22,46,64,48,28,18,38,58,72,50,34,24,44,60,46,30,18,35,54,68,44,28,16,30,48,36,24,18,26,38,30,20,14,10].map((height, i) => (
                 <div
                   key={i}
-                  className="w-2 bg-gradient-to-t from-primary to-accent rounded-full animate-pulse"
-                  style={{
-                    height: `${Math.random() * 100}%`,
-                    animationDelay: `${i * 50}ms`,
-                    animationDuration: `${1000 + Math.random() * 1000}ms`,
-                  }}
+                  className="w-1 rounded-sm bg-primary/70 sm:w-1.5"
+                  style={{ height: `${height}%` }}
                 />
               ))}
             </div>
@@ -92,12 +53,12 @@ const Landing = () => {
       </section>
 
       {/* Demo Video */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
+      <section className="py-16 sm:py-20">
+        <div className="container px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">See NoteDraft in Action</h2>
             <p className="text-muted-foreground">Watch a quick demo of the audio-to-MIDI workflow.</p>
-            <div className="relative w-full overflow-hidden rounded-xl border border-border shadow-xl" style={{ paddingBottom: "56.25%" }}>
+            <div className="relative aspect-video w-full overflow-hidden rounded-md border border-border bg-muted">
               <iframe
                 className="absolute inset-0 h-full w-full"
                 src="https://www.youtube.com/embed/9A7G1vqw3ao"
