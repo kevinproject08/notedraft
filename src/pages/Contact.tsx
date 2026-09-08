@@ -75,7 +75,7 @@ const Contact = () => {
 
           <div className="pt-6">
             <Link to="/dashboard">
-              <Button size="lg" variant="gradient">
+              <Button size="lg" variant="default">
                 Get Started with NoteDraft
               </Button>
             </Link>

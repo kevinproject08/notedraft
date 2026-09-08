@@ -287,11 +287,11 @@ const Guide = () => {
           </Card>
 
           {/* CTA */}
-          <div className="text-center p-8 rounded-lg bg-gradient-to-br from-primary/10 via-accent/10 to-background border border-border">
+          <div className="text-center p-8 rounded-lg bg-secondary/35 border border-border">
             <h3 className="text-2xl font-bold mb-3">Ready to Convert More Audio?</h3>
             <p className="text-muted-foreground mb-6">Go back to the dashboard to process another file</p>
             <Link to="/dashboard">
-              <Button size="lg" variant="gradient">
+              <Button size="lg" variant="default">
                 <FileAudio className="mr-2 h-4 w-4" />
                 Convert Another File
               </Button>

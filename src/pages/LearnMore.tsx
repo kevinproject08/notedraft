@@ -304,7 +304,7 @@ const LearnMore = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
+      <section className="py-20 bg-secondary/35">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-4xl font-bold">Ready to Get Started?</h2>
@@ -313,7 +313,7 @@ const LearnMore = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/dashboard">
-                <Button size="lg" variant="gradient" className="text-lg px-8">
+                <Button size="lg" variant="default" className="text-lg px-8">
                   Try It Now
                 </Button>
               </Link>
