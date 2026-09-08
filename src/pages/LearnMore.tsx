@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, CheckCircle2, Brain, AudioLines, FileAudio, Music2 } from "lucide-react";
+import { Sparkles, Zap, CheckCircle2, Brain, AudioLines, FileAudio, Music2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
