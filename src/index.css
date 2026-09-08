@@ -2,49 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@fontsource/sora/500.css";
+@import "@fontsource/sora/600.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+    --background: 210 25% 98%;
+    --foreground: 215 32% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 215 32% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 215 32% 14%;
 
-    --primary: 221 83% 53%;
+    --primary: 217 64% 57%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 16% 93%;
-    --secondary-foreground: 215 25% 15%;
+    --secondary: 213 24% 94%;
+    --secondary-foreground: 215 32% 18%;
 
-    --muted: 210 16% 93%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 213 21% 94%;
+    --muted-foreground: 215 14% 40%;
 
-    --accent: 271 81% 56%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 214 35% 90%;
+    --accent-foreground: 217 48% 34%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
+    --success: 156 48% 37%;
     --success-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 221 83% 53%;
+    --border: 214 20% 85%;
+    --input: 214 20% 82%;
+    --ring: 217 64% 57%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(271 81% 56%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 81% 56%), hsl(221 83% 53%));
-    --shadow-glow: 0 0 40px hsl(271 81% 56% / 0.3);
-    --shadow-primary: 0 10px 30px -10px hsl(221 83% 53% / 0.4);
+    --surface-raised: 0 0% 100%;
+    --surface-sunken: 213 28% 96%;
+    --staff-line: 214 21% 89%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -57,41 +62,39 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 215 31% 11%;
+    --foreground: 214 27% 92%;
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    --card: 215 28% 15%;
+    --card-foreground: 214 27% 92%;
 
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 215 28% 15%;
+    --popover-foreground: 214 27% 92%;
 
-    --primary: 221 83% 53%;
+    --primary: 217 67% 66%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 22%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 214 24% 21%;
+    --secondary-foreground: 214 27% 92%;
 
-    --muted: 217 33% 22%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 214 22% 20%;
+    --muted-foreground: 214 15% 68%;
 
-    --accent: 271 81% 56%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 215 30% 24%;
+    --accent-foreground: 214 27% 92%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
+    --success: 155 47% 53%;
     --success-foreground: 0 0% 100%;
 
-    --border: 217 33% 22%;
-    --input: 217 33% 22%;
-    --ring: 221 83% 53%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(271 81% 56%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 81% 56%), hsl(221 83% 53%));
-    --shadow-glow: 0 0 40px hsl(271 81% 56% / 0.4);
-    --shadow-primary: 0 10px 30px -10px hsl(221 83% 53% / 0.5);
+    --border: 214 22% 25%;
+    --input: 214 22% 29%;
+    --ring: 217 67% 66%;
+    --surface-raised: 215 28% 15%;
+    --surface-sunken: 215 30% 12%;
+    --staff-line: 214 22% 23%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -110,6 +113,42 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    min-width: 320px;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: "Sora", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.2);
+  }
+}
+
+@layer utilities {
+  .section-shell {
+    @apply container px-4 py-16 sm:py-20 lg:py-24;
+  }
+
+  .staff-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 11px,
+      hsl(var(--staff-line)) 12px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
