@@ -1,6 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, FileCheck, Loader2, AlertCircle } from "lucide-react";
+import { Download, FileCheck, AudioLines, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ResultsSectionProps {
@@ -11,57 +10,59 @@ interface ResultsSectionProps {
 
 const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) => {
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <section className="min-h-[32rem] border-t border-border bg-secondary/25 lg:border-l lg:border-t-0" aria-labelledby="results-heading">
+      <div className="border-b border-border p-5 sm:p-6">
+        <h2 id="results-heading" className="flex items-center gap-2 font-heading text-xl font-semibold">
           <FileCheck className="h-5 w-5" />
           Results
-        </CardTitle>
-        <CardDescription>
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground">
           Download your converted MIDI file and related outputs
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+        </p>
+      </div>
+      <div className="p-5 sm:p-6">
         {isLoading && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Processing your file...</p>
-            <p className="text-xs text-muted-foreground">This may take a few moments</p>
+          <div className="flex min-h-80 flex-col items-center justify-center space-y-4 text-center" aria-live="polite">
+            <div className="staff-lines flex h-20 w-full max-w-sm items-center justify-center rounded-md bg-background">
+              <AudioLines className="h-8 w-8 animate-pulse text-primary" />
+            </div>
+            <p className="font-heading text-base font-semibold">Transcribing audio</p>
+            <p className="text-sm text-muted-foreground">Detecting notes and rhythm…</p>
           </div>
         )}
 
         {!isLoading && !downloadUrl && !error && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
-            <div className="p-4 rounded-full bg-muted">
+          <div className="flex min-h-80 flex-col items-center justify-center space-y-4 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-muted">
               <Download className="h-8 w-8 text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium text-foreground">No output yet</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Upload a file and click Process to get started
+              <p className="font-heading text-base font-semibold text-foreground">Your result will appear here</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Add a recording and start the transcription.
               </p>
             </div>
           </div>
         )}
 
         {!isLoading && error && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <div className="p-4 rounded-full bg-destructive/10">
+          <div className="flex min-h-80 flex-col items-center justify-center space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-destructive/10">
               <AlertCircle className="h-8 w-8 text-destructive" />
             </div>
             <div className="text-center space-y-2">
-              <p className="text-sm font-medium text-destructive">Processing failed</p>
-              <p className="text-xs text-muted-foreground px-4">{error}</p>
+              <p className="font-heading text-base font-semibold text-destructive">Transcription failed</p>
+              <p className="max-w-sm break-words px-4 text-sm text-muted-foreground">{error}</p>
             </div>
           </div>
         )}
 
         {!isLoading && downloadUrl && (
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-success/10 border border-success/20">
+            <div className="border-l-2 border-success bg-success/10 p-4">
               <div className="flex items-center gap-2 mb-2">
                 <FileCheck className="h-5 w-5 text-success" />
-                <p className="text-sm font-medium text-success">Processing complete!</p>
+                <p className="text-sm font-semibold text-success">Transcription complete</p>
               </div>
               <p className="text-xs text-muted-foreground">
                 Your MIDI file and related outputs are ready to download.
@@ -75,7 +76,7 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
               </Button>
             </a>
 
-            <div className="p-3 rounded-lg bg-muted space-y-1">
+            <div className="space-y-1 bg-muted/70 p-4">
               <p className="text-xs font-medium text-foreground">What's included:</p>
               <ul className="text-xs text-muted-foreground space-y-0.5 ml-4 list-disc">
                 <li>Generated MIDI file</li>
@@ -84,9 +85,9 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
               </ul>
             </div>
 
-            <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-3">
+            <div className="space-y-3 border-t border-border pt-5">
               <div className="flex items-start gap-2">
-                <div className="p-1.5 rounded bg-primary/10 mt-0.5">
+                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10">
                   <FileCheck className="h-4 w-4 text-primary" />
                 </div>
                 <div className="space-y-2 flex-1">
@@ -117,8 +118,8 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
             </div>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 };
 

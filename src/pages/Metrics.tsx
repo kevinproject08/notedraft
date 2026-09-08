@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Clock, FileAudio, TrendingUp, ArrowLeft, Loader2, Moon, Sun, Music2 } from "lucide-react";
+import { Clock, FileAudio, TrendingUp, Loader2, Music2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { getMetrics, type MetricsResponse } from "@/lib/api";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { theme, setTheme } = useTheme();
 
   const fetchMetrics = async () => {
     try {
@@ -50,44 +46,12 @@ const Metrics = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">NoteDraft</h1>
-                <p className="text-xs text-muted-foreground">Metrics</p>
-              </div>
-            </Link>
-
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full"
-              >
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-              <Link to="/dashboard">
-                <Button variant="outline">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SiteHeader context="Product metrics" actionLabel="Dashboard" />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Transcription Metrics</h2>
+          <h1 className="mb-2 font-heading text-3xl font-semibold">Transcription Metrics</h1>
           <p className="text-muted-foreground">Overview of all audio-to-MIDI conversions</p>
         </div>
 
