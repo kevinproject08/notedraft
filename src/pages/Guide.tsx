@@ -1,46 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileAudio, Download, FolderOpen, CheckCircle2, AlertCircle, ArrowLeft, Moon, Sun, BarChart3, Music2 } from "lucide-react";
+import { FileAudio, Download, FolderOpen, CheckCircle2, AlertCircle, ArrowLeft, Music2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 const Guide = () => {
-  const { theme, setTheme } = useTheme();
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-            </div>
-            <span className="text-xl font-bold">NoteDraft</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/metrics">
-              <Button variant="outline" size="sm">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Metrics
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Link to="/dashboard">
-              <Button variant="gradient">Dashboard</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <SiteHeader actionLabel="Dashboard" />
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-4xl">

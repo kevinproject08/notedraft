@@ -55,8 +55,8 @@ const Landing = () => {
       {/* Demo Video */}
       <section className="py-16 sm:py-20">
         <div className="container px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">See NoteDraft in Action</h2>
+          <div className="mx-auto max-w-4xl text-center space-y-6">
+            <h2 className="font-heading text-3xl font-semibold sm:text-4xl">See NoteDraft in Action</h2>
             <p className="text-muted-foreground">Watch a quick demo of the audio-to-MIDI workflow.</p>
             <div className="relative aspect-video w-full overflow-hidden rounded-md border border-border bg-muted">
               <iframe
@@ -74,7 +74,7 @@ const Landing = () => {
 
       {/* Feature Cards */}
       <section className="border-y border-border bg-secondary/35 py-20 sm:py-24">
-        <div className="container mx-auto px-4">
+        <div className="container px-4">
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <Card>
               <CardHeader>
@@ -153,7 +153,7 @@ const Landing = () => {
 
       {/* Use Cases */}
       <section className="py-20 sm:py-24">
-        <div className="container mx-auto px-4">
+        <div className="container px-4">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
             <div className="space-y-6">
               <h2 className="flex items-center gap-3 font-heading text-3xl font-semibold sm:text-4xl">
@@ -198,8 +198,8 @@ const Landing = () => {
 
       {/* Testimonials */}
       <section id="testimonials" className="border-t border-border bg-secondary/35 py-20 sm:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+        <div className="container px-4">
+          <div className="mx-auto max-w-6xl">
             <div className="text-center space-y-4 mb-12">
               <h2 className="font-heading text-3xl font-semibold sm:text-4xl">What Musicians Are Saying</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
