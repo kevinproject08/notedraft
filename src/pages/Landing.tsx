@@ -73,10 +73,10 @@ const Landing = () => {
       </section>
 
       {/* Feature Cards */}
-      <section className="py-24 bg-card/30">
+      <section className="border-y border-border bg-secondary/35 py-20 sm:py-24">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileAudio className="h-5 w-5 text-primary" />
@@ -100,7 +100,7 @@ const Landing = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Zap className="h-5 w-5 text-primary" />
@@ -124,7 +124,7 @@ const Landing = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Download className="h-5 w-5 text-primary" />
@@ -152,11 +152,11 @@ const Landing = () => {
       </section>
 
       {/* Use Cases */}
-      <section className="py-24">
+      <section className="py-20 sm:py-24">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
             <div className="space-y-6">
-              <h2 className="text-4xl font-bold flex items-center gap-3">
+              <h2 className="flex items-center gap-3 font-heading text-3xl font-semibold sm:text-4xl">
                 <Music className="h-8 w-8 text-primary" />
                 Built Around Real Musicians
               </h2>
@@ -177,10 +177,10 @@ const Landing = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <p className="text-muted-foreground">🎓 Students transcribing repertoire or etudes for analysis.</p>
-                  <p className="text-muted-foreground">🎧 Producers converting melodic ideas into MIDI to arrange later.</p>
-                  <p className="text-muted-foreground">🎼 Composers capturing improv sessions before the ideas vanish.</p>
-                  <p className="text-muted-foreground">🎻 Teachers creating quick study materials from their own playing.</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-foreground">Students</span> transcribing repertoire or etudes for analysis.</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-foreground">Producers</span> converting melodic ideas into MIDI to arrange later.</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-foreground">Composers</span> capturing improv sessions before the ideas vanish.</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-foreground">Teachers</span> creating quick study materials from their own playing.</p>
                 </div>
               </CardContent>
             </Card>
@@ -188,7 +188,7 @@ const Landing = () => {
 
           <div className="text-center mt-16">
             <Link to="/dashboard">
-              <Button size="lg" variant="gradient">
+              <Button size="lg">
                 Start Converting Now
               </Button>
             </Link>
@@ -197,18 +197,18 @@ const Landing = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-24 bg-card/30">
+      <section id="testimonials" className="border-t border-border bg-secondary/35 py-20 sm:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center space-y-4 mb-12">
-              <h2 className="text-4xl font-bold">What Musicians Are Saying</h2>
+              <h2 className="font-heading text-3xl font-semibold sm:text-4xl">What Musicians Are Saying</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Real feedback from students, composers, and producers using NoteDraft.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-xl transition-shadow">
+              <Card>
                 <CardHeader>
                   <Quote className="h-6 w-6 text-primary mb-2" />
                   <div className="flex gap-1">
@@ -228,7 +228,7 @@ const Landing = () => {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-xl transition-shadow">
+              <Card>
                 <CardHeader>
                   <Quote className="h-6 w-6 text-primary mb-2" />
                   <div className="flex gap-1">
@@ -248,7 +248,7 @@ const Landing = () => {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-xl transition-shadow">
+              <Card>
                 <CardHeader>
                   <Quote className="h-6 w-6 text-primary mb-2" />
                   <div className="flex gap-1">
