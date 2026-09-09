@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Instagram } from "lucide-react";
+import { Mail } from "lucide-react";
 import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
 
@@ -38,28 +38,6 @@ const Support = () => {
               </CardContent>
             </Card>
 
-            {/* Instagram Card */}
-            <Card>
-              <CardHeader>
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-md bg-muted">
-                  <Instagram className="h-5 w-5 text-primary" />
-                </div>
-                <CardTitle>Follow Us on Instagram</CardTitle>
-                <CardDescription>
-                  Stay updated with the latest news, tips, and updates from NoteDraft.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <a 
-                  href="https://www.instagram.com/note.draft/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-lg font-medium text-primary hover:underline"
-                >
-                  @note.draft
-                </a>
-              </CardContent>
-            </Card>
           </div>
 
         </div>

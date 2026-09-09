@@ -8,4 +8,4 @@
 - [x] Apply the same treatment to Features, Learn More, Guide, Metrics, Contact, Support, Terms, and Not Found without changing their destinations or behavior.
 - [x] Correct unsupported or exaggerated marketing claims and the broken How It Works destination without adding sections.
 - [x] Format metrics consistently while preserving fetching and refresh behavior.
-- [ ] Verify build, desktop/mobile in both themes, navigation, instrument query preselection, file controls, processing/result states, downloads, and report test limits.
+- [x] Verify build, desktop/mobile in both themes, navigation, instrument query preselection, file controls, processing/result states, downloads, and report test limits.

@@ -292,7 +292,7 @@ const LearnMore = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">Is there a file size limit?</CardTitle>
                   <CardDescription className="mt-2 text-base">
-                    The interface recommends files up to 50MB and recordings up to 10 minutes. Larger or longer files can require more processing time.
+                    NoteDraft does not currently enforce a file-size limit in the upload screen. Larger or longer files can require more processing time.
                   </CardDescription>
                 </CardHeader>
               </Card>
