@@ -40,6 +40,7 @@ All colors MUST be HSL.
     --ring: 217 64% 49%;
 
     --radius: 0.5rem;
+    --instagram-gradient: linear-gradient(45deg, hsl(31 87% 57%), hsl(348 71% 51%), hsl(323 78% 42%));
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;

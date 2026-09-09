@@ -1,199 +1,46 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Zap, Target, FileMusic, Clock, Shield, Layers, Download, BarChart3, Music } from "lucide-react";
-import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
-import notedraftLogo from "@/assets/notedraft-logo.png";
+import { Clock, Download, FileMusic, Layers, Music, Shield, SlidersHorizontal, Target } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
-const Features = () => {
-  const { theme, setTheme } = useTheme();
+const features = [
+  { icon: Music, title: "Instrument-specific transcription", description: "Choose piano, violin, viola, cello, or double bass before processing." },
+  { icon: Target, title: "Note detection", description: "The transcription pipeline identifies note timing, pitch, and duration from a recording." },
+  { icon: FileMusic, title: "Broad format support", description: "Upload common audio, video, and MIDI formats and receive standard MIDI output." },
+  { icon: Clock, title: "Time range selection", description: "Select a portion of the recording after a file is loaded." },
+  { icon: Shield, title: "Guest workflow", description: "Start a transcription without creating an account." },
+  { icon: Layers, title: "Polyphonic passages", description: "Process recordings containing overlapping notes from the selected instrument." },
+  { icon: Download, title: "Downloadable output", description: "Download the generated MIDI and related output files in a ZIP archive." },
+  { icon: SlidersHorizontal, title: "Processing feedback", description: "Follow upload, processing, progress, completion, cancellation, and error states." },
+];
 
-  const features = [
-    {
-      icon: Music,
-      title: "Multi-Instrument Support",
-      description: "Dedicated transcription models for piano, violin, viola, cello, and double bass — each tuned to its instrument's tone.",
-    },
-    {
-      icon: Zap,
-      title: "Lightning Fast Processing",
-      description: "Convert audio to MIDI in seconds, not minutes. Our optimized AI pipeline delivers results faster than traditional methods.",
-    },
-    {
-      icon: Target,
-      title: "High Accuracy Detection",
-      description: "Advanced neural networks detect notes with exceptional precision, capturing nuances that other tools miss.",
-    },
-    {
-      icon: FileMusic,
-      title: "Multiple Format Support",
-      description: "Upload MP3, WAV, FLAC, and more. Export to standard MIDI format compatible with all major DAWs.",
-    },
-    {
-      icon: Clock,
-      title: "Time Range Selection",
-      description: "Process specific sections of your audio by setting custom start and end times for targeted transcription.",
-    },
-    {
-      icon: Shield,
-      title: "Secure & Private",
-      description: "Your audio files are processed securely and never stored permanently. Your music remains yours.",
-    },
-    {
-      icon: Layers,
-      title: "Polyphonic Transcription",
-      description: "Handle complex multi-note passages with ease. Our AI separates overlapping notes accurately.",
-    },
-    {
-      icon: Download,
-      title: "Instant Downloads",
-      description: "Get your MIDI files immediately after processing. No waiting, no email verification required.",
-    },
-  ];
+const instruments = [
+  { name: "Piano", value: "piano" }, { name: "Violin", value: "violin" }, { name: "Viola", value: "viola" }, { name: "Cello", value: "cello" }, { name: "Double Bass", value: "bass" },
+];
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-            </div>
-            <span className="text-xl font-bold">NoteDraft</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link to="/metrics">
-              <Button variant="outline" size="sm">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Metrics
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Link to="/dashboard">
-              <Button>Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Powerful Features for
-            <span className="text-primary"> Music Creators</span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Everything you need to transform your audio recordings into professional MIDI files, 
-            powered by cutting-edge AI technology.
-          </p>
-          <Link to="/dashboard">
-            <Button size="lg" className="gap-2">
-              <Zap className="h-5 w-5" />
-              Try It Now
-            </Button>
-          </Link>
-        </div>
+const Features = () => (
+  <div className="min-h-screen bg-background">
+    <SiteHeader />
+    <main>
+      <section className="border-b border-border py-14 md:py-16">
+        <div className="container px-4 sm:px-6"><div className="max-w-3xl"><p className="text-sm font-medium text-primary">Product</p><h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Tools for turning recordings into MIDI</h1><p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">NoteDraft combines instrument selection, file processing, progress tracking, and downloadable output in one focused workflow.</p><Button asChild size="lg" className="mt-7"><Link to="/dashboard">Open transcription</Link></Button></div></div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="bg-card/50 border-border hover:bg-card/80 transition-colors">
-                <CardContent className="p-6">
-                  <feature.icon className="h-10 w-10 text-primary mb-4" />
-                  <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+      <section className="border-b border-border py-14">
+        <div className="container px-4 sm:px-6"><h2 className="text-2xl font-semibold">Features</h2><div className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">{features.map((feature) => <article key={feature.title} className="border-t border-border pt-5"><feature.icon className="h-5 w-5 text-primary" /><h3 className="mt-4 font-semibold">{feature.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.description}</p></article>)}</div></div>
       </section>
 
-      {/* Supported Instruments Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4">Supported Instruments</h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Choose your instrument before uploading. Each one routes to a model trained specifically for that instrument's timbre and range.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-            {[
-              { name: "Piano", value: "piano" },
-              { name: "Violin", value: "violin" },
-              { name: "Viola", value: "viola" },
-              { name: "Cello", value: "cello" },
-              { name: "Double Bass", value: "bass" },
-            ].map((inst) => (
-              <Link key={inst.value} to={`/dashboard?instrument=${inst.value}`} className="block">
-                <Card className="bg-card/50 border-border hover:bg-card/80 hover:border-primary transition-colors cursor-pointer h-full">
-                  <CardContent className="p-6 text-center">
-                    <Music className="h-8 w-8 text-primary mx-auto mb-3" />
-                    <h3 className="font-semibold">{inst.name}</h3>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
+      <section className="border-b border-border bg-muted/40 py-14">
+        <div className="container px-4 sm:px-6"><h2 className="text-2xl font-semibold">Supported instruments</h2><p className="mt-3 max-w-2xl text-muted-foreground">Select an instrument to open the transcription workspace with its model ready.</p><div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-5">{instruments.map((instrument) => <Button key={instrument.value} asChild variant="outline" className="h-14"><Link to={`/dashboard?instrument=${instrument.value}`}><Music />{instrument.name}</Link></Button>)}</div></div>
       </section>
 
-      {/* Technical Recommendations Section */}
-      <section className="py-16 px-4 bg-muted/30">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4">Technical Recommendations</h2>
-          <p className="text-center text-muted-foreground mb-12">Larger files and longer durations may take longer transcription times</p>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">50MB</div>
-              <p className="text-muted-foreground">Recommended file size</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">10min</div>
-              <p className="text-muted-foreground">Recommended audio duration</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">5</div>
-              <p className="text-muted-foreground">Supported instruments</p>
-            </div>
-          </div>
-        </div>
+      <section className="py-14">
+        <div className="container px-4 sm:px-6"><h2 className="text-2xl font-semibold">Recording recommendations</h2><p className="mt-3 text-muted-foreground">Clear solo-instrument recordings are the best starting point. Larger and longer files can require more processing time.</p><dl className="mt-8 grid gap-6 sm:grid-cols-3"><div className="border-t border-border pt-4"><dt className="text-sm text-muted-foreground">Recommended file size</dt><dd className="mt-1 text-3xl font-semibold">50 MB</dd></div><div className="border-t border-border pt-4"><dt className="text-sm text-muted-foreground">Recommended duration</dt><dd className="mt-1 text-3xl font-semibold">10 min</dd></div><div className="border-t border-border pt-4"><dt className="text-sm text-muted-foreground">Instrument models</dt><dd className="mt-1 text-3xl font-semibold">5</dd></div></dl><div className="mt-10 flex flex-wrap gap-3"><Button asChild><Link to="/dashboard">Open transcription</Link></Button><Button asChild variant="outline"><Link to="/learn-more">Learn how it works</Link></Button></div></div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Transform your audio into MIDI today. No account required, no software to install.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/dashboard">
-              <Button size="lg">Start Converting</Button>
-            </Link>
-            <Link to="/learn-more">
-              <Button variant="outline" size="lg">Learn More</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
-};
+    </main>
+    <Footer />
+  </div>
+);
 
 export default Features;
