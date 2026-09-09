@@ -56,9 +56,11 @@ const SiteHeader = ({ context }: SiteHeaderProps) => {
 
         <div className="flex shrink-0 items-center gap-1.5">
           <ThemeToggle />
-          <Button asChild size="sm">
-            <Link to="/dashboard">Open workspace</Link>
-          </Button>
+          {!onWorkspace && (
+            <Button asChild size="sm">
+              <Link to="/dashboard">Open workspace</Link>
+            </Button>
+          )}
         </div>
       </div>
 
