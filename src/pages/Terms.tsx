@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
+import { Link } from "react-router-dom";
 
 const Terms = () => {
   return (

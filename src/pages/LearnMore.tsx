@@ -210,9 +210,9 @@ const LearnMore = () => {
               <Card className="text-center">
                 <CardHeader>
                   <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle>Lightning Fast</CardTitle>
+                  <CardTitle>Tracked Processing</CardTitle>
                   <CardDescription>
-                    What used to take hours of manual transcription now takes seconds with AI acceleration.
+                     Follow the active job from upload through processing and completion.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -229,7 +229,7 @@ const LearnMore = () => {
 
               <Card className="text-center">
                 <CardHeader>
-                  <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
+                  <FileAudio className="h-12 w-12 text-primary mx-auto mb-4" />
                   <CardTitle>Professional Quality</CardTitle>
                   <CardDescription>
                     Get clean, production-ready MIDI files that work seamlessly with all major DAWs and notation software.
@@ -263,8 +263,7 @@ const LearnMore = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">How accurate is the transcription?</CardTitle>
                   <CardDescription className="mt-2 text-base">
-                    Accuracy depends on audio quality and complexity. Simple monophonic melodies achieve near-perfect accuracy, 
-                    while complex polyphonic music may require minor manual adjustments in your DAW or notation software.
+                    Accuracy depends on audio quality, instrument, and musical complexity. Generated MIDI may require manual adjustments in your DAW or notation software.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -293,8 +292,7 @@ const LearnMore = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">Is there a file size limit?</CardTitle>
                   <CardDescription className="mt-2 text-base">
-                    File size limits depend on your plan. The free tier supports files up to 50MB, 
-                    while premium plans allow larger files. Longer files may take a bit more time to process.
+                    The interface recommends files up to 50MB and recordings up to 10 minutes. Larger or longer files can require more processing time.
                   </CardDescription>
                 </CardHeader>
               </Card>
