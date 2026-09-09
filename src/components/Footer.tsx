@@ -3,7 +3,7 @@ import notedraftLogo from "@/assets/notedraft-logo.png";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto border-t border-border py-10">
+    <footer className="border-t border-border py-12 mt-auto">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
@@ -12,14 +12,14 @@ const Footer = () => {
               <span className="font-bold">NoteDraft</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Audio and video transcription to editable MIDI.
+              Professional audio-to-MIDI conversion powered by AI
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Product</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="/#how-it-works" className="hover:text-foreground">How It Works</a></li>
+              <li><Link to="/#how-it-works" className="hover:text-foreground">How It Works</Link></li>
               <li><Link to="/features" className="hover:text-foreground">Features</Link></li>
             </ul>
           </div>

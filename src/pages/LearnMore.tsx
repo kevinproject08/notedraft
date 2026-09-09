@@ -1,25 +1,60 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, CheckCircle2, Brain, AudioLines, FileAudio, Music2 } from "lucide-react";
+import { Sparkles, Zap, CheckCircle2, Brain, AudioLines, FileAudio, Moon, Sun, BarChart3, Music2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
+import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
-import SiteHeader from "@/components/SiteHeader";
 
 const LearnMore = () => {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="min-h-screen bg-background">
-      <SiteHeader />
+      {/* Navigation */}
+      <nav className="border-b border-border bg-background sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
+              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
+            </div>
+            <span className="text-xl font-bold">NoteDraft</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/metrics">
+              <Button variant="outline" size="sm">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Metrics
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            <Link to="/dashboard">
+              <Button variant="gradient">Get Started</Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
       {/* Hero Section */}
-      <section className="border-b border-border py-14 md:py-16">
+      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl space-y-6">
-            <p className="text-sm font-medium text-primary">How it works</p>
-            <h1 className="text-4xl font-semibold md:text-5xl">
-              From recorded performance to editable MIDI
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent-foreground text-sm font-medium mb-4">
+              <Sparkles className="inline h-4 w-4 mr-2" />
+              Learn About Audio-to-MIDI
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold">
+              Transform Your Audio into MIDI with AI
             </h1>
             <p className="text-xl text-muted-foreground">
-              Learn how NoteDraft analyzes a recording and prepares a MIDI file for continued editing.
+              Discover how NoteDraft uses advanced AI to convert your audio recordings into professional MIDI files in seconds.
             </p>
           </div>
         </div>
@@ -210,9 +245,9 @@ const LearnMore = () => {
               <Card className="text-center">
                 <CardHeader>
                   <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle>Tracked Processing</CardTitle>
+                  <CardTitle>Lightning Fast</CardTitle>
                   <CardDescription>
-                     Follow the active job from upload through processing and completion.
+                    What used to take hours of manual transcription now takes seconds with AI acceleration.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -229,7 +264,7 @@ const LearnMore = () => {
 
               <Card className="text-center">
                 <CardHeader>
-                  <FileAudio className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
                   <CardTitle>Professional Quality</CardTitle>
                   <CardDescription>
                     Get clean, production-ready MIDI files that work seamlessly with all major DAWs and notation software.
@@ -263,7 +298,8 @@ const LearnMore = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">How accurate is the transcription?</CardTitle>
                   <CardDescription className="mt-2 text-base">
-                    Accuracy depends on audio quality, instrument, and musical complexity. Generated MIDI may require manual adjustments in your DAW or notation software.
+                    Accuracy depends on audio quality and complexity. Simple monophonic melodies achieve near-perfect accuracy, 
+                    while complex polyphonic music may require minor manual adjustments in your DAW or notation software.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -292,7 +328,8 @@ const LearnMore = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">Is there a file size limit?</CardTitle>
                   <CardDescription className="mt-2 text-base">
-                    NoteDraft does not currently enforce a file-size limit in the upload screen. Larger or longer files can require more processing time.
+                    File size limits depend on your plan. The free tier supports files up to 50MB, 
+                    while premium plans allow larger files. Longer files may take a bit more time to process.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -302,17 +339,17 @@ const LearnMore = () => {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border bg-muted/40 py-14">
+      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-4xl font-bold">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground">
-              Start a guest transcription with your own recording.
+              Start converting your audio to MIDI in seconds. No credit card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/dashboard">
-                <Button size="lg" className="text-lg px-8">
-                  Open transcription
+                <Button size="lg" variant="gradient" className="text-lg px-8">
+                  Try It Now
                 </Button>
               </Link>
               <Link to="/guide">
