@@ -43,7 +43,7 @@ const Contact = () => {
           <Card className="text-left">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="rounded-md bg-instagram p-2">
+                <div className="rounded-md [background:var(--instagram-gradient)] p-2">
                   <Instagram className="h-6 w-6 text-primary-foreground" />
                 </div>
                 Instagram
