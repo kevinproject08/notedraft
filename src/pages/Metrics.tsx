@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Clock, FileAudio, TrendingUp, ArrowLeft, Loader2, Moon, Sun, Music2 } from "lucide-react";
+import { Clock, FileAudio, TrendingUp, Loader2, Music2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { getMetrics, type MetricsResponse } from "@/lib/api";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { theme, setTheme } = useTheme();
+  const integerFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+  const decimalFormatter = new Intl.NumberFormat("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
   const fetchMetrics = async () => {
     try {
@@ -50,95 +48,63 @@ const Metrics = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">NoteDraft</h1>
-                <p className="text-xs text-muted-foreground">Metrics</p>
-              </div>
-            </Link>
-
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full"
-              >
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-              <Link to="/dashboard">
-                <Button variant="outline">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SiteHeader actionLabel="Open transcription" />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container px-4 py-10 sm:px-6">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Transcription Metrics</h2>
+          <h1 className="mb-2 text-3xl font-semibold">Transcription metrics</h1>
           <p className="text-muted-foreground">Overview of all audio-to-MIDI conversions</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in">
+        <div className="mb-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_minutes.toFixed(1)}</div>
+              <div className="text-2xl font-semibold">{decimalFormatter.format(metrics.total_minutes)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Audio transcribed
               </p>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.1s" }}>
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Pieces</CardTitle>
               <FileAudio className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_pieces}</div>
+              <div className="text-2xl font-semibold">{integerFormatter.format(metrics.total_pieces)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Files processed
               </p>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Notes</CardTitle>
               <Music2 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_notes}</div>
+              <div className="text-2xl font-semibold">{integerFormatter.format(metrics.total_notes)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 MIDI notes extracted
               </p>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.3s" }}>
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Avg Minutes</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {metrics.total_pieces > 0 ? (metrics.total_minutes / metrics.total_pieces).toFixed(1) : '0.0'}
+              <div className="text-2xl font-semibold">
+                {decimalFormatter.format(metrics.total_pieces > 0 ? metrics.total_minutes / metrics.total_pieces : 0)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 Per piece
@@ -147,12 +113,10 @@ const Metrics = () => {
           </Card>
         </div>
 
-        <Card className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
-          <CardHeader>
-            <CardTitle>About These Metrics</CardTitle>
-            <CardDescription>Understanding your conversion statistics</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <section className="border-t border-border pt-8">
+          <h2 className="text-lg font-semibold">About these metrics</h2>
+          <p className="mt-1 text-sm text-muted-foreground">How the conversion totals are counted.</p>
+          <div className="mt-5">
             <ul className="space-y-2">
               <li className="text-sm">
                 <strong>Total Minutes:</strong> Combined duration of all audio files processed
@@ -170,8 +134,8 @@ const Metrics = () => {
             <p className="text-xs text-muted-foreground mt-4">
               Metrics update automatically every 10 seconds
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </section>
       </main>
 
       <Footer />
