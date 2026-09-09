@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileCheck, Loader2, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,114 +10,69 @@ interface ResultsSectionProps {
 
 const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) => {
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <FileCheck className="h-5 w-5" />
-          Results
-        </CardTitle>
-        <CardDescription>
-          Download your converted MIDI file and related outputs
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        {isLoading && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Processing your file...</p>
-            <p className="text-xs text-muted-foreground">This may take a few moments</p>
+    <section aria-labelledby="result-heading" className="space-y-4">
+      <div>
+        <h2 id="result-heading" className="text-lg font-semibold">
+          3. Result
+        </h2>
+        <p className="prose-measure mt-1 text-sm text-muted-foreground">
+          Your MIDI file arrives in a ZIP archive with the related output files.
+        </p>
+      </div>
+
+      {isLoading && (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Working on your recording…
+        </p>
+      )}
+
+      {!isLoading && !downloadUrl && !error && (
+        <p className="text-sm text-muted-foreground">Nothing yet. Choose a file and start a transcription.</p>
+      )}
+
+      {!isLoading && error && (
+        <div className="flex items-start gap-2 text-sm">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+          <div>
+            <p className="font-medium text-destructive">Transcription failed</p>
+            <p className="break-words text-muted-foreground">{error}</p>
+            <p className="mt-1 text-muted-foreground">You can adjust your file and try again.</p>
           </div>
-        )}
+        </div>
+      )}
 
-        {!isLoading && !downloadUrl && !error && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
-            <div className="p-4 rounded-full bg-muted">
-              <Download className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">No output yet</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Upload a file and click Process to get started
-              </p>
-            </div>
-          </div>
-        )}
+      {!isLoading && downloadUrl && (
+        <div className="space-y-5">
+          <p className="flex items-center gap-2 text-sm font-medium text-success">
+            <FileCheck className="h-4 w-4" />
+            Transcription complete
+          </p>
 
-        {!isLoading && error && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <div className="p-4 rounded-full bg-destructive/10">
-              <AlertCircle className="h-8 w-8 text-destructive" />
-            </div>
-            <div className="text-center space-y-2">
-              <p className="text-sm font-medium text-destructive">Processing failed</p>
-              <p className="text-xs text-muted-foreground px-4">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {!isLoading && downloadUrl && (
-          <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-success/10 border border-success/20">
-              <div className="flex items-center gap-2 mb-2">
-                <FileCheck className="h-5 w-5 text-success" />
-                <p className="text-sm font-medium text-success">Processing complete!</p>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Your MIDI file and related outputs are ready to download.
-              </p>
-            </div>
-
-            <a href={downloadUrl} download="NoteDraft_output.zip" className="block">
-              <Button className="w-full" size="lg" variant="default">
-                <Download className="mr-2 h-4 w-4" />
-                Download Results (.zip)
-              </Button>
+          <Button asChild size="lg" className="w-full sm:w-auto">
+            <a href={downloadUrl} download="NoteDraft_output.zip">
+              <Download className="h-4 w-4" />
+              Download MIDI (.zip)
             </a>
+          </Button>
 
-            <div className="p-3 rounded-lg bg-muted space-y-1">
-              <p className="text-xs font-medium text-foreground">What's included:</p>
-              <ul className="text-xs text-muted-foreground space-y-0.5 ml-4 list-disc">
-                <li>Generated MIDI file</li>
-                <li>Related output files</li>
-                <li>Processing metadata</li>
-              </ul>
-            </div>
-
-            <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-3">
-              <div className="flex items-start gap-2">
-                <div className="p-1.5 rounded bg-primary/10 mt-0.5">
-                  <FileCheck className="h-4 w-4 text-primary" />
-                </div>
-                <div className="space-y-2 flex-1">
-                  <p className="text-sm font-semibold text-foreground">Next Step: View Your Sheet Music</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Your MIDI file can be opened in any music notation software to view and edit as sheet music. 
-                    A popular free option is music notation software like MuseScore.
-                  </p>
-                  <div className="space-y-2 text-xs text-muted-foreground">
-                    <p className="font-medium text-foreground">Quick steps:</p>
-                    <ol className="space-y-1 ml-4 list-decimal">
-                      <li>Extract the MIDI file from the downloaded ZIP</li>
-                      <li>Download and install music notation software (e.g., MuseScore from musescore.org)</li>
-                      <li>Open the software and use File → Open to load your MIDI file</li>
-                      <li>View and edit your sheet music!</li>
-                    </ol>
-                  </div>
-                  <Link to="/guide" className="block mt-3">
-                    <Button variant="outline" size="sm" className="w-full">
-                      View Complete Guide
-                    </Button>
-                  </Link>
-                  <p className="text-[10px] italic text-muted-foreground/70 mt-2">
-                    Note: NoteDraft is not affiliated with any third-party software. MuseScore is mentioned as an example only.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="space-y-3 border-t border-border pt-5">
+            <h3 className="text-sm font-semibold">Open it as sheet music</h3>
+            <ol className="prose-measure list-decimal space-y-1.5 pl-5 text-sm text-muted-foreground">
+              <li>Extract the ZIP and find the .mid file.</li>
+              <li>Install notation software, for example MuseScore from musescore.org.</li>
+              <li>Open the .mid file with File → Open, then edit or export as PDF.</li>
+            </ol>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/guide">Read the full guide</Link>
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              NoteDraft is not affiliated with any third-party software. MuseScore is mentioned as an example only.
+            </p>
           </div>
-        )}
-      </CardContent>
-    </Card>
+        </div>
+      )}
+    </section>
   );
 };
 

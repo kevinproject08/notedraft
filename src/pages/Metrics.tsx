@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, FileAudio, TrendingUp, ArrowLeft, Loader2, Moon, Sun, Music2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getMetrics, type MetricsResponse } from "@/lib/api";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
+
+const numberFormat = new Intl.NumberFormat("en-US");
+const decimalFormat = new Intl.NumberFormat("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { theme, setTheme } = useTheme();
+  const [hasError, setHasError] = useState(false);
 
   const fetchMetrics = async () => {
     try {
-      setIsLoading(true);
       const data = await getMetrics();
       setMetrics(data);
+      setHasError(false);
     } catch (error) {
-      console.error('Error fetching metrics:', error);
+      console.error("Error fetching metrics:", error);
+      setHasError(true);
     } finally {
       setIsLoading(false);
     }
@@ -27,151 +29,89 @@ const Metrics = () => {
 
   useEffect(() => {
     fetchMetrics();
-    // Optional: Poll for updates every 10 seconds
+    // Poll for updates every 10 seconds
     const interval = setInterval(fetchMetrics, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!metrics) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Failed to load metrics</p>
-      </div>
-    );
-  }
+  const stats = metrics
+    ? [
+        {
+          label: "Minutes transcribed",
+          value: decimalFormat.format(metrics.total_minutes),
+          hint: "Combined length of every recording processed",
+        },
+        {
+          label: "Recordings",
+          value: numberFormat.format(metrics.total_pieces),
+          hint: "Files successfully converted to MIDI",
+        },
+        {
+          label: "Notes detected",
+          value: numberFormat.format(metrics.total_notes),
+          hint: "MIDI notes written across all outputs",
+        },
+        {
+          label: "Average length",
+          value:
+            metrics.total_pieces > 0
+              ? `${decimalFormat.format(metrics.total_minutes / metrics.total_pieces)} min`
+              : "0.0 min",
+          hint: "Per recording",
+        },
+      ]
+    : [];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-                <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">NoteDraft</h1>
-                <p className="text-xs text-muted-foreground">Metrics</p>
-              </div>
-            </Link>
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader context="Metrics" />
 
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full"
-              >
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-              <Link to="/dashboard">
-                <Button variant="outline">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">
+        <h1 className="text-2xl font-semibold sm:text-3xl">Transcription totals</h1>
+        <p className="prose-measure mt-2 text-muted-foreground">
+          Combined activity across every NoteDraft transcription. Updates every 10 seconds.
+        </p>
+
+        {isLoading && !metrics && (
+          <p className="mt-10 flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Loading totals…
+          </p>
+        )}
+
+        {!isLoading && !metrics && (
+          <div className="mt-10 space-y-3">
+            <p className="text-sm text-destructive">Totals could not be loaded right now.</p>
+            <Button variant="outline" size="sm" onClick={fetchMetrics}>
+              Try again
+            </Button>
           </div>
-        </div>
-      </header>
+        )}
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Transcription Metrics</h2>
-          <p className="text-muted-foreground">Overview of all audio-to-MIDI conversions</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_minutes.toFixed(1)}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Audio transcribed
+        {metrics && (
+          <>
+            {hasError && (
+              <p className="mt-6 text-sm text-muted-foreground">
+                Showing the last figures received; the latest update did not come through.
               </p>
-            </CardContent>
-          </Card>
+            )}
+            <dl className="mt-10 grid gap-8 border-t border-border pt-8 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <dt className="text-sm text-muted-foreground">{stat.label}</dt>
+                  <dd className="mt-1 text-3xl font-semibold tabular-nums">{stat.value}</dd>
+                  <dd className="prose-measure mt-1 text-sm text-muted-foreground">{stat.hint}</dd>
+                </div>
+              ))}
+            </dl>
 
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Pieces</CardTitle>
-              <FileAudio className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_pieces}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Files processed
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Notes</CardTitle>
-              <Music2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.total_notes}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                MIDI notes extracted
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg Minutes</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {metrics.total_pieces > 0 ? (metrics.total_minutes / metrics.total_pieces).toFixed(1) : '0.0'}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Per piece
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
-          <CardHeader>
-            <CardTitle>About These Metrics</CardTitle>
-            <CardDescription>Understanding your conversion statistics</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              <li className="text-sm">
-                <strong>Total Minutes:</strong> Combined duration of all audio files processed
-              </li>
-              <li className="text-sm">
-                <strong>Total Pieces:</strong> Number of files successfully converted to MIDI
-              </li>
-              <li className="text-sm">
-                <strong>Total Notes:</strong> Total MIDI notes extracted from all pieces
-              </li>
-              <li className="text-sm">
-                <strong>Avg Minutes:</strong> Average duration per converted piece
-              </li>
-            </ul>
-            <p className="text-xs text-muted-foreground mt-4">
-              Metrics update automatically every 10 seconds
-            </p>
-          </CardContent>
-        </Card>
+            <div className="mt-12 border-t border-border pt-8">
+              <Button asChild>
+                <Link to="/dashboard">Open workspace</Link>
+              </Button>
+            </div>
+          </>
+        )}
       </main>
 
       <Footer />

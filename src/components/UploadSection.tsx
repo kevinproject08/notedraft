@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
@@ -53,21 +52,21 @@ const UploadSection = ({
       setSelectedFile(file);
       setError(null);
       setRange([0, 100]);
-      
+
       // Get file duration for audio/video files
       const url = URL.createObjectURL(file);
       const media = document.createElement(file.type.startsWith('audio') ? 'audio' : 'video');
-      
+
       media.addEventListener('loadedmetadata', () => {
         setDuration(Math.round(media.duration));
         URL.revokeObjectURL(url);
       });
-      
+
       media.addEventListener('error', () => {
         setDuration(0);
         URL.revokeObjectURL(url);
       });
-      
+
       media.src = url;
     }
   };
@@ -87,13 +86,13 @@ const UploadSection = ({
     try {
       await cancelJob(currentJobId);
       toast({
-        title: "Job Canceled",
-        description: "Your transcription job has been canceled.",
+        title: "Transcription stopped",
+        description: "Your transcription was canceled.",
       });
     } catch (err) {
       toast({
-        title: "Cancel Failed",
-        description: "Could not cancel the job.",
+        title: "Could not stop it",
+        description: "The transcription is still running.",
         variant: "destructive",
       });
     } finally {
@@ -118,7 +117,7 @@ const UploadSection = ({
     setError(null);
     setDownloadUrl(null);
     setProgress(0);
-    setStatusMessage("Uploading file and initializing transcription...");
+    setStatusMessage("Uploading your file…");
 
     try {
       // Start the transcription job
@@ -130,11 +129,11 @@ const UploadSection = ({
       const pollInterval = setInterval(async () => {
         try {
           const status = await getJobStatus(jobId);
-          
+
           // Only update progress if it's greater than 0 (actual segments being processed)
           if (status.progress > 0) {
             setProgress(status.progress);
-            setStatusMessage(status.message || "Processing...");
+            setStatusMessage(status.message || "Detecting notes…");
           }
 
           if (status.status === "complete" || status.status === "completed") {
@@ -146,7 +145,7 @@ const UploadSection = ({
             setCurrentJobId(null);
             setProgress(100);
             toast({
-              title: "Success!",
+              title: "Transcription ready",
               description: "Your MIDI file is ready to download.",
             });
           } else if (status.status === "failed" || status.error) {
@@ -166,7 +165,7 @@ const UploadSection = ({
       setCurrentJobId(null);
       setStatusMessage("");
       toast({
-        title: "Processing failed",
+        title: "Transcription failed",
         description: errorMessage,
         variant: "destructive",
       });
@@ -174,147 +173,127 @@ const UploadSection = ({
   };
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Upload className="h-5 w-5" />
-          Upload & Process
-        </CardTitle>
-        <CardDescription>
-          Upload your audio, video, or MIDI file to convert it to MIDI format
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={ACCEPTED_FORMATS}
-            onChange={handleFileChange}
-            className="hidden"
+    <section aria-labelledby="source-heading" className="space-y-6">
+      <div>
+        <h2 id="source-heading" className="text-lg font-semibold">
+          1. Your recording
+        </h2>
+        <p className="prose-measure mt-1 text-sm text-muted-foreground">
+          Audio, video, or MIDI. Solo recordings of one instrument give the cleanest result.
+        </p>
+      </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={ACCEPTED_FORMATS}
+        onChange={handleFileChange}
+        className="hidden"
+        disabled={isLoading}
+      />
+
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        disabled={isLoading}
+        className="flex w-full flex-col items-start gap-1 rounded-md border border-dashed border-input bg-surface px-4 py-6 text-left transition-colors hover:border-primary hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60"
+      >
+        <span className="flex items-center gap-2 text-sm font-medium">
+          <FileAudio className="h-4 w-4 text-muted-foreground" />
+          {selectedFile ? "Choose a different file" : "Choose a file"}
+        </span>
+        <span className="w-full break-all text-sm text-muted-foreground">
+          {selectedFile
+            ? `${selectedFile.name} · ${(selectedFile.size / 1024 / 1024).toFixed(2)} MB${duration > 0 ? ` · ${formatTime(duration)}` : ""}`
+            : "WAV, MP3, FLAC, M4A, MP4, MOV, MIDI and more"}
+        </span>
+      </button>
+
+      <div className="space-y-2">
+        <label htmlFor="instrument" className="text-sm font-medium">
+          2. Instrument
+        </label>
+        <Select value={instrument} onValueChange={(val) => setInstrument(val as Instrument)} disabled={isLoading}>
+          <SelectTrigger id="instrument" className="max-w-xs">
+            <SelectValue placeholder="Select instrument" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="piano">Piano</SelectItem>
+            <SelectItem value="violin">Violin</SelectItem>
+            <SelectItem value="viola">Viola</SelectItem>
+            <SelectItem value="cello">Cello</SelectItem>
+            <SelectItem value="bass">Double bass</SelectItem>
+          </SelectContent>
+        </Select>
+        <p className="text-sm text-muted-foreground">Each instrument uses its own transcription model.</p>
+      </div>
+
+      {selectedFile && (
+        <div className="space-y-2 border-t border-border pt-5">
+          <label className="text-sm font-medium">
+            Section to keep in view:{" "}
+            <span className="font-normal text-muted-foreground">
+              {duration > 0 ? `${formatTime(getStartTime())} – ${formatTime(getEndTime())}` : `${range[0]}% – ${range[1]}%`}
+            </span>
+          </label>
+          <Slider
+            value={range}
+            onValueChange={setRange}
+            min={0}
+            max={100}
+            step={1}
+            minStepsBetweenThumbs={5}
             disabled={isLoading}
+            aria-label="Section of the recording"
+            className="w-full max-w-md"
           />
-          
-          <Button
-            variant="outline"
-            className="w-full h-32 border-2 border-dashed hover:border-primary hover:bg-primary/5 transition-colors"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isLoading}
-          >
-            <div className="flex flex-col items-center gap-2">
-              <FileAudio className="h-8 w-8 text-muted-foreground" />
-              <span className="text-sm font-medium">
-                {selectedFile ? selectedFile.name : "Click to select a file"}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Audio, Video, or MIDI files supported
-              </span>
-            </div>
+          {duration > 0 && (
+            <p className="text-sm text-muted-foreground">Total length {formatTime(duration)}.</p>
+          )}
+        </div>
+      )}
+
+      {error && !isLoading && (
+        <p role="alert" className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
+
+      {isLoading && (
+        <div className="space-y-3 border-t border-border pt-5">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="text-sm font-medium">
+              {progress === 0 ? statusMessage || "Uploading your file…" : "Detecting notes and rhythm…"}
+            </p>
+            <p className="text-sm text-muted-foreground">{Math.round(progress)}%</p>
+          </div>
+          <Progress value={progress} className="h-1.5 w-full" />
+          <p className="text-sm text-muted-foreground">
+            {progress === 0
+              ? "Progress appears once processing starts."
+              : "Longer recordings can take several minutes. Keep this tab open."}
+          </p>
+          <Button variant="outline" size="sm" onClick={handleCancel}>
+            <X className="h-4 w-4" />
+            Stop transcription
           </Button>
         </div>
+      )}
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Instrument</label>
-          <Select value={instrument} onValueChange={(val) => setInstrument(val as Instrument)} disabled={isLoading}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select instrument" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="piano">Piano</SelectItem>
-              <SelectItem value="violin">Violin</SelectItem>
-              <SelectItem value="viola">Viola</SelectItem>
-              <SelectItem value="cello">Cello</SelectItem>
-              <SelectItem value="bass">Bass</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {error && (
-          <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
-            <p className="text-sm text-destructive font-medium">Error: {error}</p>
-          </div>
+      <Button onClick={handleProcess} disabled={!selectedFile || isLoading} size="lg" className="w-full sm:w-auto">
+        {isLoading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Transcribing…
+          </>
+        ) : (
+          <>
+            <Upload className="h-4 w-4" />
+            Transcribe to MIDI
+          </>
         )}
-
-        {selectedFile && (
-          <div className="space-y-4">
-            <div className="p-3 rounded-lg bg-muted">
-              <p className="text-sm text-muted-foreground">Selected file:</p>
-              <p className="text-sm font-medium truncate">{selectedFile.name}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium">
-                Transcription Range: {duration > 0 ? `${formatTime(getStartTime())} - ${formatTime(getEndTime())}` : `${range[0]}% - ${range[1]}%`}
-              </label>
-              <Slider
-                value={range}
-                onValueChange={setRange}
-                min={0}
-                max={100}
-                step={1}
-                minStepsBetweenThumbs={5}
-                disabled={isLoading}
-                className="w-full"
-              />
-              <p className="text-xs text-muted-foreground">
-                {duration > 0 
-                  ? `Total duration: ${formatTime(duration)} • Transcribing: ${getEndTime() - getStartTime()}s`
-                  : "Select the portion of the file to transcribe"}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {isLoading && (
-          <div className="space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">
-                {progress === 0 ? statusMessage : "Processing..."}
-              </span>
-              <span className="font-medium">{Math.round(progress)}%</span>
-            </div>
-            <Progress value={progress} className="w-full" />
-            <p className="text-xs text-muted-foreground text-center">
-              {progress === 0 
-                ? "Transcription progress will display once file processing begins"
-                : "Process could take up to 10 minutes, please keep tab open"}
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCancel}
-              className="w-full"
-            >
-              <X className="mr-2 h-4 w-4" />
-              Cancel Job
-            </Button>
-          </div>
-        )}
-
-        <Button
-          onClick={handleProcess}
-          disabled={!selectedFile || isLoading}
-          className="w-full"
-          size="lg"
-          variant="gradient"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing...
-            </>
-          ) : (
-            <>
-              <Upload className="mr-2 h-4 w-4" />
-              Process File
-            </>
-          )}
-        </Button>
-      </CardContent>
-    </Card>
+      </Button>
+    </section>
   );
 };
 
