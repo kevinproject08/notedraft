@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import notedraftLogo from "@/assets/notedraft-logo.png";
@@ -18,6 +18,9 @@ interface SiteHeaderProps {
 }
 
 const SiteHeader = ({ context }: SiteHeaderProps) => {
+  const { pathname } = useLocation();
+  const onWorkspace = pathname === "/dashboard";
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
