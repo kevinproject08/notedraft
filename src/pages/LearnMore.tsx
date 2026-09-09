@@ -1,366 +1,160 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Zap, CheckCircle2, Brain, AudioLines, FileAudio, Moon, Sun, BarChart3, Music2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
+import { Button } from "@/components/ui/button";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 
+const stages = [
+  {
+    title: "Audio analysis",
+    body: "The recording is broken into short segments and its frequency content is examined to find pitches and how they change over time.",
+  },
+  {
+    title: "Note detection",
+    body: "Each note's start, length, and strength is estimated, including passages where several notes sound at once.",
+  },
+  {
+    title: "MIDI generation",
+    body: "Detected notes become MIDI events with timing and velocity, written into a standard .mid file.",
+  },
+  {
+    title: "Cleanup",
+    body: "Detections caused by overtones, resonance, or background noise are filtered out so the score reads clearly.",
+  },
+];
+
+const audiences = [
+  {
+    title: "Composers and arrangers",
+    body: "Capture an idea you played or improvised and turn it into notation you can orchestrate.",
+  },
+  {
+    title: "Producers",
+    body: "Move a melodic take into MIDI so you can re-voice it, quantize it, or rebuild it with other sounds.",
+  },
+  {
+    title: "Students",
+    body: "Study repertoire note by note by turning your own playing into an editable score.",
+  },
+  {
+    title: "Teachers and performers",
+    body: "Make study material or digital scores from rehearsal recordings.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Which formats can I upload?",
+    a: "Common audio formats such as WAV, MP3, FLAC, M4A, AAC, OGG, AIFF, and OPUS; video files including MP4, MOV, MKV, AVI, WEBM, and WMV; and MIDI files. Clear recordings give better results.",
+  },
+  {
+    q: "Which instruments are supported?",
+    a: "Piano, violin, viola, cello, and double bass. Choose the instrument in the workspace before you transcribe, since each one uses its own model.",
+  },
+  {
+    q: "How accurate is it?",
+    a: "Accuracy depends on the recording. Clean, solo playing transcribes closely; dense polyphony, heavy reverb, or background noise usually needs some manual correction in your notation software or DAW.",
+  },
+  {
+    q: "Can I transcribe several instruments at once?",
+    a: "Polyphonic passages within one instrument are detected, but NoteDraft is built for solo recordings of a single instrument rather than full ensembles.",
+  },
+  {
+    q: "What can I do with the MIDI file?",
+    a: "Open it in a DAW such as Logic Pro, Ableton Live, or FL Studio, or in notation software such as MuseScore, Sibelius, or Finale, to edit, arrange, or export sheet music.",
+  },
+  {
+    q: "Is there a size limit?",
+    a: "There is no account or paid tier. We recommend files up to about 50 MB and recordings up to about 10 minutes; longer files simply take more time to process.",
+  },
+];
+
 const LearnMore = () => {
-  const { theme, setTheme } = useTheme();
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-            </div>
-            <span className="text-xl font-bold">NoteDraft</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/metrics">
-              <Button variant="outline" size="sm">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Metrics
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Link to="/dashboard">
-              <Button variant="gradient">Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader context="How it works" />
 
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent-foreground text-sm font-medium mb-4">
-              <Sparkles className="inline h-4 w-4 mr-2" />
-              Learn About Audio-to-MIDI
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold">
-              Transform Your Audio into MIDI with AI
+      <main className="flex-1">
+        <section className="border-b border-border">
+          <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+            <h1 className="max-w-[26ch] text-3xl font-semibold sm:text-4xl">
+              From a recording to editable notes
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Discover how NoteDraft uses advanced AI to convert your audio recordings into professional MIDI files in seconds.
+            <p className="prose-measure mt-4 text-lg text-muted-foreground">
+              Audio-to-MIDI transcription means reading the pitches, timing, and dynamics out of a recording and writing
+              them as MIDI data you can edit, re-voice, or engrave as sheet music.
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* What is Audio-to-MIDI */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">What is Audio-to-MIDI Conversion?</h2>
-              <p className="text-lg text-muted-foreground">
-                Audio-to-MIDI conversion is the process of analyzing audio recordings and extracting the musical notes, 
-                timing, and dynamics to create a MIDI file that can be edited, arranged, and played back with any instrument sound.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <AudioLines className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle>Audio Input</CardTitle>
-                  <CardDescription>
-                    Your audio file contains continuous sound waves - a recording of actual instruments, voices, or melodies.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <Music2 className="h-10 w-10 text-accent mb-2" />
-                  <CardTitle>MIDI Output</CardTitle>
-                  <CardDescription>
-                    MIDI is digital data representing individual notes, their timing, velocity, and duration - perfect for editing and arrangement.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">How NoteDraft Works</h2>
-              <p className="text-lg text-muted-foreground">
-                Our AI-powered technology breaks down the transcription process into precise steps
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg font-bold text-primary">1</span>
-                    </div>
+        <section className="border-b border-border bg-surface">
+          <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-12">
+              <div>
+                <h2 className="text-2xl font-semibold">The four stages</h2>
+                <p className="prose-measure mt-3 text-muted-foreground">
+                  Everything happens on the server while the workspace reports progress.
+                </p>
+              </div>
+              <ol className="space-y-6">
+                {stages.map((stage, index) => (
+                  <li key={stage.title} className="flex gap-4 border-b border-border pb-6 last:border-0 last:pb-0">
+                    <span className="text-sm font-semibold text-primary">{index + 1}</span>
                     <div>
-                      <CardTitle>Audio Analysis</CardTitle>
-                      <CardDescription className="mt-2">
-                        Our AI analyzes the frequency spectrum of your audio file, identifying individual pitches and their characteristics.
-                      </CardDescription>
+                      <h3 className="font-medium">{stage.title}</h3>
+                      <p className="prose-measure mt-1 text-sm text-muted-foreground">{stage.body}</p>
                     </div>
-                  </div>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg font-bold text-accent">2</span>
-                    </div>
-                    <div>
-                      <CardTitle>Note Detection</CardTitle>
-                      <CardDescription className="mt-2">
-                        Advanced algorithms detect the onset, duration, and velocity of each note, even in complex polyphonic recordings.
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg font-bold text-success">3</span>
-                    </div>
-                    <div>
-                      <CardTitle>MIDI Generation</CardTitle>
-                      <CardDescription className="mt-2">
-                        The detected notes are converted into MIDI format with proper timing, quantization, and musical structure.
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg font-bold text-primary">4</span>
-                    </div>
-                    <div>
-                      <CardTitle>Quality Optimization</CardTitle>
-                      <CardDescription className="mt-2">
-                        Post-processing cleans up the MIDI data, removing artifacts and optimizing for professional use.
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Use Cases */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">Perfect For</h2>
-              <p className="text-lg text-muted-foreground">
-                Musicians, composers, and producers use NoteDraft for various creative workflows
-              </p>
+        <section className="border-b border-border">
+          <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+            <h2 className="text-2xl font-semibold">Who uses it</h2>
+            <dl className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+              {audiences.map((item) => (
+                <div key={item.title}>
+                  <dt className="font-medium">{item.title}</dt>
+                  <dd className="prose-measure mt-1.5 text-sm text-muted-foreground">{item.body}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-surface">
+          <div className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
+            <h2 className="text-2xl font-semibold">Questions</h2>
+            <dl className="mt-8 divide-y divide-border border-t border-border">
+              {faqs.map((faq) => (
+                <div key={faq.q} className="py-5">
+                  <dt className="font-medium">{faq.q}</dt>
+                  <dd className="prose-measure mt-1.5 text-sm text-muted-foreground">{faq.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        <section>
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div>
+              <h2 className="text-2xl font-semibold">Transcribe a recording</h2>
+              <p className="prose-measure mt-2 text-muted-foreground">No account, no install, no card.</p>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <Brain className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle>Composers & Arrangers</CardTitle>
-                  <CardDescription>
-                    Quickly transcribe musical ideas hummed or played on an instrument into editable notation for orchestration and arrangement.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <Music2 className="h-10 w-10 text-accent mb-2" />
-                  <CardTitle>Music Producers</CardTitle>
-                  <CardDescription>
-                    Convert audio samples and loops into MIDI to experiment with different sounds and create variations effortlessly.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <FileAudio className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle>Music Students</CardTitle>
-                  <CardDescription>
-                    Analyze and learn from recordings by converting them to MIDI, making it easier to study chord progressions and melodies.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <Zap className="h-10 w-10 text-accent mb-2" />
-                  <CardTitle>Live Performers</CardTitle>
-                  <CardDescription>
-                    Transform rehearsal recordings into MIDI backing tracks or create digital scores from live performances.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <Link to="/dashboard">Open workspace</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link to="/guide">Read the guide</Link>
+              </Button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-20 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">Why Choose NoteDraft?</h2>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="text-center">
-                <CardHeader>
-                  <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle>Lightning Fast</CardTitle>
-                  <CardDescription>
-                    What used to take hours of manual transcription now takes seconds with AI acceleration.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <CheckCircle2 className="h-12 w-12 text-success mx-auto mb-4" />
-                  <CardTitle>High Accuracy</CardTitle>
-                  <CardDescription>
-                    Advanced AI models ensure precise note detection, even with complex polyphonic audio.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
-                  <CardTitle>Professional Quality</CardTitle>
-                  <CardDescription>
-                    Get clean, production-ready MIDI files that work seamlessly with all major DAWs and notation software.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">Frequently Asked Questions</h2>
-            </div>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">What audio formats are supported?</CardTitle>
-                  <CardDescription className="mt-2 text-base">
-                    NoteDraft supports WAV, MP3, MP4, M4A, FLAC, and most common audio and video formats. The AI works best with clear, high-quality recordings.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">How accurate is the transcription?</CardTitle>
-                  <CardDescription className="mt-2 text-base">
-                    Accuracy depends on audio quality and complexity. Simple monophonic melodies achieve near-perfect accuracy, 
-                    while complex polyphonic music may require minor manual adjustments in your DAW or notation software.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">Can I transcribe songs with multiple instruments?</CardTitle>
-                  <CardDescription className="mt-2 text-base">
-                    Yes! Our AI can detect polyphonic audio with multiple notes playing simultaneously. However, 
-                    isolated or solo instrument recordings will generally produce the best results.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">What can I do with the MIDI file?</CardTitle>
-                  <CardDescription className="mt-2 text-base">
-                    MIDI files can be imported into any DAW (Logic Pro, Ableton, FL Studio, etc.) or notation software (MuseScore, Sibelius, Finale) 
-                    for editing, arranging, changing instruments, creating sheet music, or further production.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl">Is there a file size limit?</CardTitle>
-                  <CardDescription className="mt-2 text-base">
-                    File size limits depend on your plan. The free tier supports files up to 50MB, 
-                    while premium plans allow larger files. Longer files may take a bit more time to process.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl font-bold">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground">
-              Start converting your audio to MIDI in seconds. No credit card required.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/dashboard">
-                <Button size="lg" variant="gradient" className="text-lg px-8">
-                  Try It Now
-                </Button>
-              </Link>
-              <Link to="/guide">
-                <Button size="lg" variant="outline" className="text-lg px-8">
-                  View Complete Guide
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       <Footer />
     </div>
