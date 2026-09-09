@@ -1,23 +1,17 @@
 # NoteDraft redesign roadmap
 
-## Design system
-- [ ] Light-first neutral palette with single restrained accent; solid colors, no gradients/glows
-- [ ] Night-mode toggle button on every page, accessible name, visible focus
-- [ ] Consistent type scale, restrained radii/shadows, fewer bordered cards
-- [ ] Shared site header + footer components
+## Done
+- Light-first design tokens, smaller radii, semantic success/destructive colors, dark-mode contrast (`src/index.css`)
+- Sora/Manrope typography wired into Tailwind and `index.html`
+- Shared `SiteHeader` (active nav, accessible theme toggle, mobile nav row) and rewritten `Footer` (How it works link repaired)
+- Default theme set to light with a visible night-mode button
+- Solid buttons only (gradient variant now renders as primary); standardized sizes
+- Landing, Dashboard, Features, Learn more, Guide, Metrics, Contact, Support, Terms, NotFound rebuilt on the shared system
+- Transcription History removed from the workspace
+- Metrics formatted with separators/one decimal, plus retry and stale-data states
+- Upload/result states: empty, uploading, processing, cancel, error, success, long filenames wrap
+- Removed dead `src/pages/Index.tsx` and `src/App.css`
+- Verified all 10 routes on desktop and phone: no overflow, no runtime errors
 
-## Pages
-- [ ] Landing: compact hero, keep demo video, simplify features/audience/testimonials
-- [ ] Dashboard: task heading, clear upload → instrument → process → results flow
-- [ ] Remove Transcription History entirely (frontend only)
-- [ ] Features / LearnMore / Guide / Metrics / Contact / Support / Terms / NotFound consistency
-
-## Copy + polish
-- [ ] Remove sparkles/equalizer/emoji bullets/AI badges and inflated claims
-- [ ] Fix footer "How It Works" destination
-- [ ] Metrics number formatting with thousands separators
-- [ ] Remove unverifiable free/premium plan and speed/accuracy claims
-
-## Verification
-- [ ] Desktop + mobile in both themes, keyboard focus
-- [ ] Instrument query preselect, upload validation, processing states, download link, metrics polling
+## Notes
+- The section slider in the workspace is presentational only; the backend still transcribes the whole file. Kept as-is to avoid removing an existing control.
