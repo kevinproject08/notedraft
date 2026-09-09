@@ -11,14 +11,14 @@ interface ResultsSectionProps {
 
 const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) => {
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileCheck className="h-5 w-5" />
-          Results
+          Current result
         </CardTitle>
         <CardDescription>
-          Download your converted MIDI file and related outputs
+           Progress and downloads for this transcription.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -31,14 +31,12 @@ const ResultsSection = ({ downloadUrl, error, isLoading }: ResultsSectionProps) 
         )}
 
         {!isLoading && !downloadUrl && !error && (
-          <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
-            <div className="p-4 rounded-full bg-muted">
-              <Download className="h-8 w-8 text-muted-foreground" />
-            </div>
+          <div className="flex min-h-32 items-center gap-4 border-t border-border py-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted"><Download className="h-5 w-5 text-muted-foreground" /></div>
             <div>
               <p className="text-sm font-medium text-foreground">No output yet</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Upload a file and click Process to get started
+              <p className="mt-1 text-sm text-muted-foreground">
+                Choose a file and start transcription to create a result.
               </p>
             </div>
           </div>

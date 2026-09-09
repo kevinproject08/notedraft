@@ -174,14 +174,14 @@ const UploadSection = ({
   };
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          Upload & Process
+          Source audio
         </CardTitle>
         <CardDescription>
-          Upload your audio, video, or MIDI file to convert it to MIDI format
+          Choose a recording and the instrument it contains.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -197,17 +197,17 @@ const UploadSection = ({
           
           <Button
             variant="outline"
-            className="w-full h-32 border-2 border-dashed hover:border-primary hover:bg-primary/5 transition-colors"
+            className="h-32 w-full border-dashed hover:border-primary hover:bg-primary/5"
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
           >
             <div className="flex flex-col items-center gap-2">
               <FileAudio className="h-8 w-8 text-muted-foreground" />
               <span className="text-sm font-medium">
-                {selectedFile ? selectedFile.name : "Click to select a file"}
+                {selectedFile ? selectedFile.name : "Choose a file"}
               </span>
               <span className="text-xs text-muted-foreground">
-                Audio, Video, or MIDI files supported
+                 Audio, video, and MIDI formats supported
               </span>
             </div>
           </Button>
@@ -236,11 +236,11 @@ const UploadSection = ({
         )}
 
         {selectedFile && (
-          <div className="space-y-4">
-            <div className="p-3 rounded-lg bg-muted">
-              <p className="text-sm text-muted-foreground">Selected file:</p>
-              <p className="text-sm font-medium truncate">{selectedFile.name}</p>
-              <p className="text-xs text-muted-foreground mt-1">
+          <div className="space-y-4 border-t border-border pt-4">
+            <div>
+              <p className="text-xs text-muted-foreground">Selected file</p>
+              <p className="truncate text-sm font-medium" title={selectedFile.name}>{selectedFile.name}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
@@ -299,7 +299,7 @@ const UploadSection = ({
           disabled={!selectedFile || isLoading}
           className="w-full"
           size="lg"
-          variant="gradient"
+          variant="default"
         >
           {isLoading ? (
             <>
@@ -309,7 +309,7 @@ const UploadSection = ({
           ) : (
             <>
               <Upload className="mr-2 h-4 w-4" />
-              Process File
+              Start transcription
             </>
           )}
         </Button>

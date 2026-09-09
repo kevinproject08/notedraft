@@ -1,319 +1,122 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, FileAudio, Download, CheckCircle2, Sparkles, Moon, Sun, BarChart3, Music, Quote, Star } from "lucide-react";
+import { CheckCircle2, Download, FileAudio, SlidersHorizontal, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
-import notedraftLogo from "@/assets/notedraft-logo.png";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
-const Landing = () => {
-  const { theme, setTheme } = useTheme();
+const features = [
+  {
+    icon: FileAudio,
+    title: "Audio and video input",
+    description: "Upload WAV, MP3, video, or MIDI files for transcription.",
+    details: ["Piano, violin, viola, cello, double bass", "Designed for real performance recordings"],
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Transcription cleanup",
+    description: "Post-processing reduces ghost notes and overtones in the generated MIDI.",
+    details: ["Built for practice recordings", "Instrument-specific processing"],
+  },
+  {
+    icon: Download,
+    title: "MIDI ready for editing",
+    description: "Open the generated MIDI in notation software or a DAW.",
+    details: ["Standard MIDI output", "Continue editing in your preferred software"],
+  },
+];
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="h-10 w-10 inline-flex items-center justify-center rounded-md border border-border/50 bg-background hover:bg-accent transition-colors cursor-pointer">
-              <img src={notedraftLogo} alt="NoteDraft logo" className="h-6 w-6" />
-            </div>
-            <span className="text-xl font-bold">NoteDraft</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/metrics">
-              <Button variant="outline" size="sm">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Metrics
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Link to="/dashboard">
-              <Button variant="gradient">Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+const testimonials = [
+  { quote: "NoteDraft saved me hours of manual transcription. I recorded my practice and had clean MIDI in MuseScore minutes later.", name: "Daniel S.", role: "Piano Student" },
+  { quote: "The AI cleanup is the real deal. No more chasing ghost notes, and the MIDI drops straight into Logic and just works.", name: "Jordan T.", role: "Producer & Composer" },
+  { quote: "I use it to capture improv sessions before the ideas vanish. It's become a core part of my composing workflow.", name: "Elena K.", role: "Composer" },
+];
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-background"></div>
-        <div className="container mx-auto px-4 py-24 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent-foreground text-sm font-medium mb-4">
-              <Sparkles className="inline h-4 w-4 mr-2" />
-              AI-Powered Transcription
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Transform Audio into MIDI in Seconds
-            </h1>
-            
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional audio-to-MIDI conversion powered by AI. Perfect for musicians, composers, and producers.
+const Landing = () => (
+  <div className="min-h-screen bg-background">
+    <SiteHeader />
+
+    <main>
+      <section className="border-b border-border">
+        <div className="container grid gap-10 px-4 py-16 sm:px-6 md:py-20 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+          <div className="max-w-2xl space-y-6">
+            <p className="text-sm font-medium text-primary">Audio to editable MIDI</p>
+            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Turn a performance into a working music draft</h1>
+            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Upload a piano or string recording, choose the matching instrument, and download MIDI you can continue editing.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/dashboard">
-                <Button size="lg" variant="gradient" className="text-lg px-8">
-                  Upload Audio
-                </Button>
-              </Link>
-              <Link to="/learn-more">
-                <Button size="lg" variant="outline" className="text-lg px-8">
-                  Learn More
-                </Button>
-              </Link>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg"><Link to="/dashboard">Open transcription</Link></Button>
+              <Button asChild size="lg" variant="outline"><Link to="/learn-more">Learn how it works</Link></Button>
             </div>
-
-            {/* Waveform Animation */}
-            <div className="mt-12 flex items-end justify-center gap-1 h-24">
-              {[...Array(40)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-2 bg-gradient-to-t from-primary to-accent rounded-full animate-pulse"
-                  style={{
-                    height: `${Math.random() * 100}%`,
-                    animationDelay: `${i * 50}ms`,
-                    animationDuration: `${1000 + Math.random() * 1000}ms`,
-                  }}
-                />
+          </div>
+          <div className="border-l-2 border-primary pl-6 sm:pl-8">
+            <p className="mb-5 text-sm font-medium text-muted-foreground">A clear path from recording to score</p>
+            <ol className="space-y-5">
+              {["Choose your instrument and recording", "Follow transcription progress", "Download MIDI and open it in notation software"].map((step, index) => (
+                <li key={step} className="flex gap-4">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">{index + 1}</span>
+                  <span className="pt-0.5 font-medium">{step}</span>
+                </li>
               ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="border-b border-border bg-muted/40 py-14 md:py-16">
+        <div className="container px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+              <div><h2 className="text-2xl font-semibold sm:text-3xl">See NoteDraft in action</h2><p className="mt-2 text-muted-foreground">A short walkthrough of the current audio-to-MIDI workflow.</p></div>
+              <Button asChild variant="outline" size="sm"><Link to="/dashboard">Open transcription</Link></Button>
+            </div>
+            <div className="aspect-video overflow-hidden rounded-md border border-border bg-card">
+              <iframe className="h-full w-full" src="https://www.youtube.com/embed/9A7G1vqw3ao" title="NoteDraft demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Demo Video */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">See NoteDraft in Action</h2>
-            <p className="text-muted-foreground">Watch a quick demo of the audio-to-MIDI workflow.</p>
-            <div className="relative w-full overflow-hidden rounded-xl border border-border shadow-xl" style={{ paddingBottom: "56.25%" }}>
-              <iframe
-                className="absolute inset-0 h-full w-full"
-                src="https://www.youtube.com/embed/9A7G1vqw3ao"
-                title="NoteDraft Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
+      <section className="border-b border-border py-14 md:py-16">
+        <div className="container px-4 sm:px-6">
+          <div className="mb-10 max-w-2xl"><h2 className="text-2xl font-semibold sm:text-3xl">Built for transcription work</h2><p className="mt-3 text-muted-foreground">The recording, the detected notes, and the editable output stay at the center of the workflow.</p></div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {features.map((feature) => (
+              <article key={feature.title} className="border-t border-border pt-5">
+                <feature.icon className="mb-4 h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">{feature.details.map((detail) => <li key={detail} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{detail}</li>)}</ul>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Feature Cards */}
-      <section className="py-24 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileAudio className="h-5 w-5 text-primary" />
-                  Audio & Video Input
-                </CardTitle>
-                <CardDescription>
-                  Upload WAV, MP3, or video files and let NoteDraft handle the transcription pipeline.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Piano, violin, viola, cello, double bass
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Handles real-world performance recordings
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
-                  AI-Powered Cleanup
-                </CardTitle>
-                <CardDescription>
-                  Custom post-processing filters out ghost notes and overtones before you ever open the MIDI.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Designed for real practice recordings
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Built from actual student use cases
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Download className="h-5 w-5 text-primary" />
-                  MIDI Ready for Editing
-                </CardTitle>
-                <CardDescription>
-                  Export MIDI that drops straight into MuseScore, Logic, Ableton, or your favorite DAW.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Clean tracks instead of clustered note spam
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
-                    Save hours of manual transcription work
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      <section className="border-b border-border bg-muted/40 py-14 md:py-16">
+        <div className="container grid gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
+          <div><h2 className="text-2xl font-semibold sm:text-3xl">Built around real musicians</h2><p className="mt-4 leading-relaxed text-muted-foreground">NoteDraft started as a way to turn piano practice sessions into editable scores. It now helps composers, students, teachers, and producers capture musical ideas without starting from manual MIDI entry.</p><p className="mt-4 leading-relaxed text-muted-foreground">Use it for audition preparation, analysis, arrangement sketches, or preserving an improvisation for later work.</p></div>
+          <div>
+            <h3 className="text-lg font-semibold">Common uses</h3>
+            <ul className="mt-4 divide-y divide-border border-y border-border text-muted-foreground">
+              {["Students transcribing repertoire or etudes for analysis.", "Producers converting melodic ideas into MIDI to arrange later.", "Composers capturing improv sessions before the ideas vanish.", "Teachers creating study materials from their own playing."].map((item) => <li key={item} className="py-3">{item}</li>)}
+            </ul>
           </div>
+          <div className="lg:col-span-2"><Button asChild size="lg"><Link to="/dashboard">Open transcription</Link></Button></div>
         </div>
       </section>
 
-      {/* Use Cases */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold flex items-center gap-3">
-                <Music className="h-8 w-8 text-primary" />
-                Built Around Real Musicians
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                NoteDraft started as a way to turn real piano practice sessions into editable scores. It now helps
-                composers, students, and teachers capture ideas faster without getting stuck in manual MIDI entry.
-              </p>
-              <p className="text-lg text-muted-foreground">
-                Whether you're preparing for auditions, sketching a new piece, or documenting an improvisation,
-                NoteDraft turns raw audio into something you can keep refining.
-              </p>
-            </div>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Perfect For</CardTitle>
-                <CardDescription>Real use cases instead of demo-perfect recordings.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">🎓 Students transcribing repertoire or etudes for analysis.</p>
-                  <p className="text-muted-foreground">🎧 Producers converting melodic ideas into MIDI to arrange later.</p>
-                  <p className="text-muted-foreground">🎼 Composers capturing improv sessions before the ideas vanish.</p>
-                  <p className="text-muted-foreground">🎻 Teachers creating quick study materials from their own playing.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-16">
-            <Link to="/dashboard">
-              <Button size="lg" variant="gradient">
-                Start Converting Now
-              </Button>
-            </Link>
+      <section id="testimonials" className="py-14 md:py-16">
+        <div className="container px-4 sm:px-6">
+          <div className="mb-9"><h2 className="text-2xl font-semibold sm:text-3xl">What musicians are saying</h2><p className="mt-2 text-muted-foreground">Feedback from students, composers, and producers using NoteDraft.</p></div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {testimonials.map((item) => <figure key={item.name} className="border-t border-border pt-5"><div className="mb-4 flex gap-1" aria-label="5 out of 5 stars">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-primary text-primary" />)}</div><blockquote className="leading-relaxed text-muted-foreground">“{item.quote}”</blockquote><figcaption className="mt-5"><span className="font-semibold">{item.name}</span><span className="block text-sm text-muted-foreground">{item.role}</span></figcaption></figure>)}
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <section id="testimonials" className="py-24 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center space-y-4 mb-12">
-              <h2 className="text-4xl font-bold">What Musicians Are Saying</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Real feedback from students, composers, and producers using NoteDraft.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <Quote className="h-6 w-6 text-primary mb-2" />
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground italic">
-                    "NoteDraft saved me hours of manual transcription. I recorded my practice and had clean MIDI in MuseScore minutes later."
-                  </p>
-                  <div>
-                    <p className="font-semibold">Daniel S.</p>
-                    <p className="text-sm text-muted-foreground">Piano Student</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <Quote className="h-6 w-6 text-primary mb-2" />
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground italic">
-                    "The AI cleanup is the real deal. No more chasing ghost notes, and the MIDI drops straight into Logic and just works."
-                  </p>
-                  <div>
-                    <p className="font-semibold">Jordan T.</p>
-                    <p className="text-sm text-muted-foreground">Producer & Composer</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <Quote className="h-6 w-6 text-primary mb-2" />
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground italic">
-                    "I use it to capture improv sessions before the ideas vanish. It's become a core part of my composing workflow."
-                  </p>
-                  <div>
-                    <p className="font-semibold">Elena K.</p>
-                    <p className="text-sm text-muted-foreground">Composer</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
-};
+    </main>
+    <Footer />
+  </div>
+);
 
 export default Landing;
