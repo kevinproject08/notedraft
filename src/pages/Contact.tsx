@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 
 const Contact = () => {
   const instagramUrl = "https://www.instagram.com/note.draft/";
+  const linkedinUrl = "https://www.linkedin.com/in/kevin-liu-b28043229/";
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -41,6 +42,22 @@ const Contact = () => {
                 className="font-medium text-primary hover:underline"
               >
                 @note.draft
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt className="font-medium">Linkedin</dt>
+            <dd className="prose-measure mt-1 text-sm text-muted-foreground">Follow me on Linkedin!</dd>
+            <dd className="mt-2">
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer external"
+                referrerPolicy="no-referrer"
+                className="font-medium text-primary hover:underline"
+              >
+                Kevin Liu
               </a>
             </dd>
           </div>
